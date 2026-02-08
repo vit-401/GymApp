@@ -1,7 +1,22 @@
+/**
+ * @file Bottom tab navigation bar.
+ *
+ * Provides quick access to the 5 main sections of the app:
+ * - Workout (home/default) — daily workout logging
+ * - Calendar — monthly view of completed workouts
+ * - Metrics — body weight & belly size tracking
+ * - Exercises — exercise library management
+ * - Settings — timer config, export, data management
+ *
+ * Uses NavLink for automatic active-state styling (highlighted in primary color).
+ * Includes safe-bottom padding for devices with home indicator (notch).
+ */
+
 import { NavLink } from 'react-router-dom';
 import { Dumbbell, CalendarDays, TrendingUp, ListChecks, Settings } from 'lucide-react';
 import { cn } from '@/utils/cn';
 
+/** Navigation items — order matches the bottom bar left-to-right */
 const NAV_ITEMS = [
   { to: '/', icon: Dumbbell, label: 'Workout' },
   { to: '/calendar', icon: CalendarDays, label: 'Calendar' },

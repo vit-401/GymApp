@@ -1,3 +1,16 @@
+/**
+ * @file Program page — 7-day workout split configuration.
+ *
+ * Business context:
+ * - Users configure their weekly workout program here.
+ * - Each of the 7 days renders as a collapsible DayConfig card.
+ * - Users can: add/remove exercise slots, assign exercises from library, reorder slots.
+ * - "Reset" button restores the default program (PULL/PUSH/LEGS/REST/PULL/PUSH/LEGS).
+ * - Changes here affect what appears on the WorkoutPage for daily logging.
+ *
+ * Route: /program
+ */
+
 import { useProgramStore } from '@/features/program/stores/program.store';
 import { DayConfig } from '@/features/program/components/DayConfig';
 import { Button } from '@/components/ui/button';
@@ -9,6 +22,7 @@ export function ProgramPage() {
 
   return (
     <div className="flex flex-col gap-3 p-4">
+      {/* Page header with reset button */}
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-bold">Program</h1>
         <Button
@@ -29,6 +43,7 @@ export function ProgramPage() {
         Configure your 7-day workout split. Assign exercises from your library to each slot.
       </p>
 
+      {/* One expandable card per program day */}
       {days.map((day) => (
         <DayConfig key={day.dayNumber} day={day} />
       ))}

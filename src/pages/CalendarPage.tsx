@@ -1,3 +1,15 @@
+/**
+ * @file Calendar page — monthly overview of workout completion history.
+ *
+ * Business context:
+ * - Visual calendar shows which days had completed workouts (green cells).
+ * - Clicking a date reveals session details for that day (exercises, set counts).
+ * - Legend explains the color coding: green = completed, ring = today, grey = missed.
+ * - Helps users track consistency and identify workout gaps.
+ *
+ * Route: /calendar
+ */
+
 import { useMemo, useState } from 'react';
 import { Calendar } from '@/components/Calendar/Calendar';
 import { useWorkoutStore } from '@/features/workout/stores/workout.store';
@@ -8,11 +20,13 @@ export function CalendarPage() {
   const sessions = useWorkoutStore((s) => s.sessions);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
 
+  /** Set of dates with at least one completed session — drives calendar green highlighting */
   const completedDates = useMemo(
     () => new Set(sessions.filter((s) => s.completed).map((s) => s.date)),
     [sessions]
   );
 
+  /** All sessions for the selected date (for the detail panel below the calendar) */
   const selectedSessions: WorkoutSession[] = useMemo(() => {
     if (!selectedDate) return [];
     return sessions.filter((s) => s.date === selectedDate);
@@ -22,9 +36,10 @@ export function CalendarPage() {
     <div className="flex flex-col gap-4 p-4">
       <h1 className="text-xl font-bold">Calendar</h1>
 
+      {/* Monthly calendar grid */}
       <Calendar completedDates={completedDates} onDateClick={setSelectedDate} />
 
-      {/* Legend */}
+      {/* Color legend for calendar cells */}
       <div className="flex items-center gap-4 text-xs text-muted-foreground">
         <div className="flex items-center gap-1.5">
           <div className="w-3 h-3 rounded-sm bg-success" />
@@ -40,7 +55,7 @@ export function CalendarPage() {
         </div>
       </div>
 
-      {/* Selected date details */}
+      {/* Selected date detail panel — shows session summary when a date is tapped */}
       {selectedDate && (
         <div className="bg-card rounded-xl border border-border/50 p-4">
           <h3 className="text-sm font-semibold mb-2">{formatDisplayDate(selectedDate)}</h3>

@@ -1,6 +1,16 @@
+/**
+ * @file Reusable Input component with consistent dark-theme styling.
+ *
+ * Wraps native <input> with Tailwind classes matching the app's design system.
+ * Used in: exercise forms, set logging, timer adjust, metrics recording, settings.
+ *
+ * Features: focus ring, rounded corners, card-colored background, responsive sizing.
+ */
+
 import * as React from 'react';
 import { cn } from '@/utils/cn';
 
+/** Styled input element — forwards ref for form libraries and focus management */
 const Input = React.forwardRef<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>(
   ({ className, type, ...props }, ref) => {
     return (

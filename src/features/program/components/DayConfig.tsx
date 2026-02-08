@@ -1,3 +1,17 @@
+/**
+ * @file Program day configuration component (expandable card).
+ *
+ * Business context:
+ * - Each card represents one day of the 7-day program (e.g. "D1 PULL", "D4 REST").
+ * - Expandable: tap header to show/hide slot list.
+ * - Each slot shows: position number, muscle group, assigned exercise (or "not assigned").
+ * - Slot actions: assign exercise (picker dialog), unassign, move up/down, remove.
+ * - "Add Slot" button at bottom to add new muscle group slots.
+ * - REST days only show the header (no expandable content).
+ *
+ * This is the primary interface on the ProgramPage for customizing the workout split.
+ */
+
 import { useState } from 'react';
 import { ChevronDown, ChevronUp, Trash2, Plus, Link2, Unlink } from 'lucide-react';
 import type { ProgramDay, MuscleGroup } from '@/types';
@@ -28,6 +42,7 @@ interface DayConfigProps {
 }
 
 export function DayConfig({ day }: DayConfigProps) {
+  /* UI state for expand/collapse and dialogs */
   const [expanded, setExpanded] = useState(false);
   const [addSlotOpen, setAddSlotOpen] = useState(false);
   const [newSlotMg, setNewSlotMg] = useState<MuscleGroup>('chest');
@@ -41,7 +56,7 @@ export function DayConfig({ day }: DayConfigProps) {
 
   return (
     <div className="bg-card rounded-xl border border-border/50 overflow-hidden">
-      {/* Day header */}
+      {/* Collapsible day header — shows day number, label, and slot count */}
       <button
         onClick={() => setExpanded(!expanded)}
         className="flex items-center justify-between w-full p-3 text-left"
@@ -62,6 +77,7 @@ export function DayConfig({ day }: DayConfigProps) {
         )}
       </button>
 
+      {/* Expanded slot list (hidden for REST days) */}
       {expanded && !isRest && (
         <div className="px-3 pb-3 flex flex-col gap-1.5">
           {day.slots.map((slot, idx) => {
@@ -72,18 +88,21 @@ export function DayConfig({ day }: DayConfigProps) {
                 key={slot.id}
                 className="flex items-center gap-2 py-1.5 px-2 rounded-md bg-secondary/50 text-sm"
               >
+                {/* Slot position number */}
                 <span className="text-xs text-muted-foreground w-5">#{idx + 1}</span>
+                {/* Muscle group label */}
                 <span className="text-xs font-medium min-w-[4rem]">
                   {MUSCLE_GROUP_LABELS[slot.muscleGroup]}
                 </span>
 
+                {/* Assigned exercise name or "not assigned" placeholder */}
                 {exercise ? (
                   <span className="flex-1 text-xs truncate text-primary">{exercise.name}</span>
                 ) : (
                   <span className="flex-1 text-xs text-muted-foreground/50">not assigned</span>
                 )}
 
-                {/* Assign / unassign */}
+                {/* Assign/unassign exercise button */}
                 {exercise ? (
                   <button
                     onClick={() => unassignExercise(day.dayNumber, slot.id)}
@@ -102,7 +121,7 @@ export function DayConfig({ day }: DayConfigProps) {
                   </button>
                 )}
 
-                {/* Move up/down */}
+                {/* Move slot up/down within the day */}
                 <div className="flex flex-col">
                   <button
                     onClick={() => moveSlot(day.dayNumber, slot.id, 'up')}
@@ -122,7 +141,7 @@ export function DayConfig({ day }: DayConfigProps) {
                   </button>
                 </div>
 
-                {/* Remove slot */}
+                {/* Remove slot from the day */}
                 <button
                   onClick={() => removeSlot(day.dayNumber, slot.id)}
                   className="p-1 rounded hover:bg-destructive/20 text-muted-foreground hover:text-destructive"
@@ -134,7 +153,7 @@ export function DayConfig({ day }: DayConfigProps) {
             );
           })}
 
-          {/* Add slot */}
+          {/* Add new slot button */}
           <Button variant="outline" size="sm" onClick={() => setAddSlotOpen(true)} className="mt-1">
             <Plus className="h-3 w-3 mr-1" />
             Add Slot
@@ -142,7 +161,7 @@ export function DayConfig({ day }: DayConfigProps) {
         </div>
       )}
 
-      {/* Add slot dialog */}
+      {/* Dialog: choose muscle group for new slot */}
       <Dialog open={addSlotOpen} onOpenChange={setAddSlotOpen}>
         <DialogContent className="max-w-xs">
           <DialogHeader>
@@ -172,7 +191,7 @@ export function DayConfig({ day }: DayConfigProps) {
         </DialogContent>
       </Dialog>
 
-      {/* Assign exercise dialog */}
+      {/* Dialog: pick an exercise to assign to a slot (filtered by slot's muscle group) */}
       {assignSlotId && (
         <Dialog open={!!assignSlotId} onOpenChange={() => setAssignSlotId(null)}>
           <DialogContent className="max-w-xs">
@@ -184,6 +203,7 @@ export function DayConfig({ day }: DayConfigProps) {
             </DialogHeader>
             <div className="flex flex-col gap-1 max-h-60 overflow-y-auto">
               {(() => {
+                // Filter exercises to only show those matching the slot's muscle group
                 const slot = day.slots.find((s) => s.id === assignSlotId);
                 const filtered = exercises.filter(
                   (e) => !slot || e.muscleGroup === slot.muscleGroup

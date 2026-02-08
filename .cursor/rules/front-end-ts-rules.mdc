@@ -140,6 +140,7 @@ When to introduce more power
 ## Code Documentation & Comments
 
 ### General Commenting Rule
+- **All comments MUST be written in English** so that AI tools (Copilot, Cursor, ChatGPT) can understand the codebase.
 - Always write **meaningful, high-value comments** — not noise.
 - Comment **why** something exists, not **what** it does (the code should show *what*).
 - Add comments for:
@@ -148,6 +149,22 @@ When to introduce more power
   * Workarounds, temporary hacks, or edge-case handling.
   * Public functions, utilities, and hooks — summarize purpose, parameters, and return value.
 - Keep comments **short, clear, and neutral in tone**.
+
+### File-Level JSDoc Rule
+- Every `.ts` / `.tsx` file MUST begin with a `@file` JSDoc block that includes:
+  * **Purpose**: one-liner describing what this file does.
+  * **Business context**: 2–5 sentences explaining the feature/domain this file serves and how it fits into the app.
+  * **Key behaviors or data flow** (if applicable): e.g. "Sessions are created lazily when the user visits a day."
+- This ensures any AI agent reading the codebase can immediately understand the file's role without scanning the entire code.
+
+### Inline Comment Guidelines
+- Add inline comments above non-trivial blocks:
+  * State derivations and memoized values — explain **what** is being derived and **why**.
+  * Store actions — briefly describe the business operation (e.g. "Mark session as done with a timestamp").
+  * Conditional rendering — explain what each branch represents in user terms.
+  * Multi-step clipboard / fallback logic — document the strategy and why fallbacks exist.
+- Do NOT comment obvious code (e.g. `// set name` above `setName(value)`).
+- Do NOT add redundant JSDoc for simple getters/setters.
 
 
 ## UI Components & Layout

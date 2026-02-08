@@ -1,13 +1,30 @@
+/**
+ * @file Reusable Dialog (modal) component built on Radix UI Dialog primitives.
+ *
+ * Used throughout the app for: add set, delete confirmation, exercise form, timer adjust,
+ * workout summary, exercise assignment, add slot, etc.
+ *
+ * Features:
+ * - Accessible: focus trap, ESC to close, screen reader support via Radix
+ * - Animated: fade + zoom in/out transitions via Tailwind animate classes
+ * - Dark-themed overlay with blur backdrop
+ * - Close button (X) in top-right corner
+ *
+ * Exports: Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription, etc.
+ */
+
 import * as React from 'react';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
 import { X } from 'lucide-react';
 import { cn } from '@/utils/cn';
 
+/* Re-export Radix primitives for consistent API */
 const Dialog = DialogPrimitive.Root;
 const DialogTrigger = DialogPrimitive.Trigger;
 const DialogPortal = DialogPrimitive.Portal;
 const DialogClose = DialogPrimitive.Close;
 
+/** Semi-transparent backdrop overlay with blur effect */
 const DialogOverlay = React.forwardRef<
   React.ComponentRef<typeof DialogPrimitive.Overlay>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>
@@ -23,6 +40,7 @@ const DialogOverlay = React.forwardRef<
 ));
 DialogOverlay.displayName = DialogPrimitive.Overlay.displayName;
 
+/** Main dialog content container — centered, responsive width, with close button */
 const DialogContent = React.forwardRef<
   React.ComponentRef<typeof DialogPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
@@ -38,6 +56,7 @@ const DialogContent = React.forwardRef<
       {...props}
     >
       {children}
+      {/* Close button — always accessible in top-right corner */}
       <DialogPrimitive.Close className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
         <X className="h-4 w-4" />
         <span className="sr-only">Close</span>
@@ -47,10 +66,12 @@ const DialogContent = React.forwardRef<
 ));
 DialogContent.displayName = DialogPrimitive.Content.displayName;
 
+/** Dialog header layout — stacks title and description vertically */
 const DialogHeader = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
   <div className={cn('flex flex-col space-y-1.5 text-center sm:text-left', className)} {...props} />
 );
 
+/** Dialog title — large, semibold text */
 const DialogTitle = React.forwardRef<
   React.ComponentRef<typeof DialogPrimitive.Title>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Title>
@@ -63,6 +84,7 @@ const DialogTitle = React.forwardRef<
 ));
 DialogTitle.displayName = DialogPrimitive.Title.displayName;
 
+/** Dialog description — smaller, muted text below the title */
 const DialogDescription = React.forwardRef<
   React.ComponentRef<typeof DialogPrimitive.Description>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Description>

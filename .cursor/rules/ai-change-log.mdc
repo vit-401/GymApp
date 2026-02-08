@@ -7,3 +7,24 @@
 - [2026-02-08T18:45:00Z] src/features/workout/components/AddSetDialog.tsx — Simplified: no longer requires Exercise object. Accepts name string. Always shows reps + weight + multiplier inputs. Added useEffect to sync lastSet defaults.
 - [2026-02-08T18:45:00Z] src/features/workout/components/WorkoutDayView.tsx — Removed dayNumber prop from ExerciseCard (no longer needed).
 - [2026-02-08T18:45:00Z] src/features/workout/components/ExercisePickerDialog.tsx — Deleted, not needed since exercises are fixed slots.
+- [2026-02-08T21:41:14Z] src/features/workout/components/ExerciseCard.tsx — Add confirmation prompt before deleting a set to prevent accidental removal.
+- [2026-02-08T21:42:54Z] src/features/workout/components/ExerciseCard.tsx — Replace browser confirm with custom dialog; add cancel/delete actions for set removal.
+- [2026-02-08T21:46:22Z] src/stores/timer.store.ts — Add setRemaining to update current timer seconds while keeping default duration unchanged.
+- [2026-02-08T21:46:22Z] src/components/Timer/Timer.tsx — Make timer display clickable; add dialog to set current seconds, reset running state, keep default at 120s.
+- [2026-02-08T21:48:32Z] src/features/workout/components/WorkoutDayView.tsx — Gate "Complete Day" button; enable only when every slot has at least one set logged.
+- [2026-02-08T22:10:00Z] src/features/workout/stores/workout.store.ts — Add uncompleteSession and isDayCompletedToday actions to support day completion state checks and re-editing.
+- [2026-02-08T22:10:00Z] src/features/workout/components/DaySelector.tsx — Show green styling + check badge on day buttons whose today-session is completed; 4 visual states (selected+completed, completed, selected, default).
+- [2026-02-08T22:10:00Z] src/features/workout/components/ExerciseCard.tsx — Add readOnly prop; hides "+" add-set and "x" delete-set buttons when true to lock completed workouts.
+- [2026-02-08T22:10:00Z] src/features/workout/components/WorkoutDayView.tsx — Pass readOnly to ExerciseCard when completed; replace static "Completed" text with "Edit Workout" button that uncompletes the session.
+- [2026-02-08T22:25:00Z] src/features/workout/utils/export.ts — Rewrite export: new formatSessionText uses slots/muscle-group labels directly instead of exercise lookup; outputs clean reps-multiplier*weight format.
+- [2026-02-08T22:25:00Z] src/features/workout/components/WorkoutDayView.tsx — Add "Copy Summary" button + dialog on completed days; shows formatted workout text with one-tap clipboard copy. Moved freshSession/isCompleted above hooks to fix ordering.
+- [2026-02-08T22:33:00Z] src/pages/SettingsPage.tsx — Fix export sessions usage: use new formatSessionText with program days; remove exercise lookup to match new export API.
+- [2026-02-08T22:40:00Z] src/features/workout/components/WorkoutDayView.tsx — Make copy robust: clipboard API + fallback, show confirmation/error tag in dialog, reset on close.
+- [2026-02-08T22:40:00Z] src/pages/SettingsPage.tsx — Add clipboard fallback + error message for export copy.
+- [2026-02-08T22:47:00Z] src/features/workout/components/WorkoutDayView.tsx — Add Select Text option and auto-select on copy failure for mobile; improve fallback copy by focusing readonly textarea.
+- [2026-02-08T22:47:00Z] src/pages/SettingsPage.tsx — Add Select Text button + auto-select on copy failure; improve fallback copy for mobile.
+- [2026-02-08T22:55:00Z] src/features/workout/utils/export.ts — Prefer actual exercise names via slot.exerciseId; fallback to muscle group label when missing.
+- [2026-02-08T22:55:00Z] src/features/workout/components/WorkoutDayView.tsx — Pass getExerciseById into formatSessionText for per-exercise labels in copy summary.
+- [2026-02-08T22:55:00Z] src/pages/SettingsPage.tsx — Use getExerciseById in export text to show exercise names instead of "Unknown."
+- [2026-02-08T23:30:00Z] (workspaceEdit, 31 files) — Add comprehensive English JSDoc and inline comments across entire codebase for AI comprehension: file-level @file blocks with business context, inline comments on non-trivial logic, domain model documentation, store action descriptions, UI component purpose docs. No runtime changes.
+- [2026-02-08T23:30:00Z] .cursor/rules/front-end-ts-rules.mdc — Add "File-Level JSDoc Rule" and "Inline Comment Guidelines" sections to enforce English comments with business context on every file for AI readability.

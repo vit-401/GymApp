@@ -1,3 +1,17 @@
+/**
+ * @file Metrics page — body weight and belly size tracking with charts.
+ *
+ * Business context:
+ * - Users log body measurements (weight in lbs, belly circumference in inches) to track progress.
+ * - Line charts (via recharts) visualize trends when 2+ data points exist.
+ * - Two separate charts: Weight Trend (blue line) and Belly Size Trend (amber line).
+ * - Measurements are listed in reverse chronological order (newest first) below the charts.
+ * - Each record can be individually deleted.
+ * - "+" button opens a dialog to add a new measurement.
+ *
+ * Route: /metrics
+ */
+
 import { useState, useMemo } from 'react';
 import { useMetricsStore } from '@/features/metrics/stores/metrics.store';
 import { Button } from '@/components/ui/button';
@@ -30,13 +44,13 @@ export function MetricsPage() {
   const [weight, setWeight] = useState('');
   const [bellySize, setBellySize] = useState('');
 
-  /** Sorted newest-first for the list */
+  /** Sorted newest-first for the history list display */
   const sortedMetrics = useMemo(
     () => [...metrics].sort((a, b) => b.recordedAt.localeCompare(a.recordedAt)),
     [metrics]
   );
 
-  /** Sorted oldest-first for charts */
+  /** Sorted oldest-first for chronological chart rendering */
   const chartData = useMemo(() => {
     return [...metrics]
       .sort((a, b) => a.recordedAt.localeCompare(b.recordedAt))
@@ -48,10 +62,11 @@ export function MetricsPage() {
       }));
   }, [metrics]);
 
+  /** Validate and add a new measurement, then close the dialog */
   const handleAdd = () => {
     const w = weight ? parseFloat(weight) : undefined;
     const b = bellySize ? parseFloat(bellySize) : undefined;
-    if (w === undefined && b === undefined) return;
+    if (w === undefined && b === undefined) return; // At least one value required
     addMetric({ weight: w, bellySize: b });
     setWeight('');
     setBellySize('');
@@ -60,6 +75,7 @@ export function MetricsPage() {
 
   return (
     <div className="flex flex-col gap-4 p-4 pb-6">
+      {/* Page header with add button */}
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-bold">Body Metrics</h1>
         <Button size="icon" onClick={() => setDialogOpen(true)} aria-label="Add record">
@@ -67,9 +83,10 @@ export function MetricsPage() {
         </Button>
       </div>
 
-      {/* Charts */}
+      {/* Trend charts — only shown when 2+ data points exist for meaningful visualization */}
       {chartData.length >= 2 && (
         <>
+          {/* Weight trend chart (blue line) */}
           {chartData.some((d) => d.weight != null) && (
             <div className="bg-card rounded-xl border border-border/50 p-4">
               <h3 className="text-sm font-semibold mb-3 flex items-center gap-1.5">
@@ -102,6 +119,7 @@ export function MetricsPage() {
             </div>
           )}
 
+          {/* Belly size trend chart (amber line) */}
           {chartData.some((d) => d.belly != null) && (
             <div className="bg-card rounded-xl border border-border/50 p-4">
               <h3 className="text-sm font-semibold mb-3 flex items-center gap-1.5">
@@ -136,7 +154,7 @@ export function MetricsPage() {
         </>
       )}
 
-      {/* Records log */}
+      {/* Measurement history list (newest first) */}
       <div>
         <h3 className="text-sm font-semibold mb-2">
           History{' '}
@@ -157,7 +175,7 @@ export function MetricsPage() {
                 key={m.id}
                 className="flex items-center gap-3 bg-card rounded-xl border border-border/50 px-3 py-2.5"
               >
-                {/* Timestamp */}
+                {/* Measurement date and time */}
                 <div className="shrink-0 min-w-[5.5rem]">
                   <p className="text-xs font-medium">
                     {format(parseISO(m.recordedAt), 'MMM d, yyyy')}
@@ -167,7 +185,7 @@ export function MetricsPage() {
                   </p>
                 </div>
 
-                {/* Values */}
+                {/* Measurement values */}
                 <div className="flex flex-1 items-center gap-3">
                   {m.weight != null && (
                     <div className="flex items-center gap-1">
@@ -185,7 +203,7 @@ export function MetricsPage() {
                   )}
                 </div>
 
-                {/* Delete */}
+                {/* Delete record button */}
                 <button
                   onClick={() => deleteMetric(m.id)}
                   className="p-1.5 rounded-md hover:bg-destructive/20 text-muted-foreground hover:text-destructive transition-colors shrink-0"
@@ -199,7 +217,7 @@ export function MetricsPage() {
         )}
       </div>
 
-      {/* Add record dialog */}
+      {/* Add measurement dialog */}
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogContent className="max-w-xs">
           <DialogHeader>

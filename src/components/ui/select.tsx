@@ -1,12 +1,28 @@
+/**
+ * @file Reusable Select (dropdown) component built on Radix UI Select primitives.
+ *
+ * Used in: exercise form (muscle group, weight type), program config (add slot muscle group).
+ *
+ * Features:
+ * - Accessible: keyboard navigation, screen reader support via Radix
+ * - Animated: fade + zoom transitions
+ * - Dark-themed with card background
+ * - Check icon indicator for selected item
+ *
+ * Exports: Select, SelectTrigger, SelectValue, SelectContent, SelectItem, SelectGroup
+ */
+
 import * as React from 'react';
 import * as SelectPrimitive from '@radix-ui/react-select';
 import { Check, ChevronDown } from 'lucide-react';
 import { cn } from '@/utils/cn';
 
+/* Re-export Radix primitives for consistent API */
 const Select = SelectPrimitive.Root;
 const SelectGroup = SelectPrimitive.Group;
 const SelectValue = SelectPrimitive.Value;
 
+/** Select trigger button — shows current value with a chevron indicator */
 const SelectTrigger = React.forwardRef<
   React.ComponentRef<typeof SelectPrimitive.Trigger>,
   React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger>
@@ -27,6 +43,7 @@ const SelectTrigger = React.forwardRef<
 ));
 SelectTrigger.displayName = SelectPrimitive.Trigger.displayName;
 
+/** Dropdown content — renders in a portal, animated, dark-themed */
 const SelectContent = React.forwardRef<
   React.ComponentRef<typeof SelectPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof SelectPrimitive.Content>
@@ -52,6 +69,7 @@ const SelectContent = React.forwardRef<
 ));
 SelectContent.displayName = SelectPrimitive.Content.displayName;
 
+/** Individual select option — shows a check icon when selected */
 const SelectItem = React.forwardRef<
   React.ComponentRef<typeof SelectPrimitive.Item>,
   React.ComponentPropsWithoutRef<typeof SelectPrimitive.Item>
@@ -64,6 +82,7 @@ const SelectItem = React.forwardRef<
     )}
     {...props}
   >
+    {/* Check mark indicator for selected item */}
     <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
       <SelectPrimitive.ItemIndicator>
         <Check className="h-4 w-4" />

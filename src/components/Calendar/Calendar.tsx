@@ -1,3 +1,19 @@
+/**
+ * @file Monthly calendar component for visualizing workout completion.
+ *
+ * Business context:
+ * - Shows a month grid where completed workout dates are highlighted in green.
+ * - Today's date gets a ring highlight for orientation.
+ * - Clicking a date triggers onDateClick (used by CalendarPage to show day details).
+ * - Navigating between months via chevron buttons.
+ *
+ * Visual states per day cell:
+ * - Completed: green background
+ * - Today (not completed): primary ring
+ * - Today + completed: green background + white ring
+ * - Out of current month: faded opacity
+ */
+
 import { useState, useMemo } from 'react';
 import {
   startOfMonth,
@@ -16,7 +32,9 @@ import { formatDate } from '@/utils/date';
 import { cn } from '@/utils/cn';
 
 interface CalendarProps {
+  /** Set of ISO date strings (yyyy-MM-dd) representing completed workout days */
   completedDates: Set<string>;
+  /** Callback when a date cell is clicked — receives the date string */
   onDateClick?: (date: string) => void;
 }
 
@@ -25,9 +43,11 @@ const WEEKDAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 export function Calendar({ completedDates, onDateClick }: CalendarProps) {
   const [currentMonth, setCurrentMonth] = useState(new Date());
 
+  /** Generate all day cells for the calendar grid (includes padding days from adjacent months) */
   const calendarDays = useMemo(() => {
     const monthStart = startOfMonth(currentMonth);
     const monthEnd = endOfMonth(currentMonth);
+    // Extend to full weeks so the grid fills evenly
     const calStart = startOfWeek(monthStart);
     const calEnd = endOfWeek(monthEnd);
     return eachDayOfInterval({ start: calStart, end: calEnd });
@@ -35,7 +55,7 @@ export function Calendar({ completedDates, onDateClick }: CalendarProps) {
 
   return (
     <div className="bg-card rounded-xl border border-border/50 p-4">
-      {/* Header: month nav */}
+      {/* Month navigation header */}
       <div className="flex items-center justify-between mb-4">
         <button
           onClick={() => setCurrentMonth(subMonths(currentMonth, 1))}
@@ -54,7 +74,7 @@ export function Calendar({ completedDates, onDateClick }: CalendarProps) {
         </button>
       </div>
 
-      {/* Weekday headers */}
+      {/* Weekday column headers */}
       <div className="grid grid-cols-7 mb-1">
         {WEEKDAYS.map((day) => (
           <div key={day} className="text-center text-[10px] text-muted-foreground font-medium py-1">
@@ -63,7 +83,7 @@ export function Calendar({ completedDates, onDateClick }: CalendarProps) {
         ))}
       </div>
 
-      {/* Days grid */}
+      {/* Day cells grid */}
       <div className="grid grid-cols-7 gap-0.5">
         {calendarDays.map((day) => {
           const dateStr = formatDate(day);

@@ -1,10 +1,32 @@
+/**
+ * @file Program configuration store (Zustand + persist).
+ *
+ * Business context:
+ * - The app uses a fixed 7-day workout program split (e.g. PULL/PUSH/LEGS/REST/PULL/PUSH/LEGS).
+ * - Each day has ordered "slots" — each slot targets a muscle group and can have an exercise assigned.
+ * - Users configure the program via ProgramPage: add/remove/reorder slots, assign/unassign exercises.
+ * - The program structure drives what appears on the WorkoutPage for daily logging.
+ *
+ * Default program:
+ *   D1 PULL: Back, Back, Biceps, Rear Delts, ABS
+ *   D2 PUSH: Chest, Shoulders, Chest, Shoulders, Triceps
+ *   D3 LEGS: Legs, Hamstring, Legs, Calves
+ *   D4 REST: (no slots)
+ *   D5 PULL: Legs, Back, Back, Biceps, Traps, ABS
+ *   D6 PUSH: Chest, Shoulders, Chest, Shoulders, Triceps
+ *   D7 LEGS: Legs, Hamstring, Quads, Calves
+ *
+ * Persistence: full program saved to localStorage (key: "gymapp-program").
+ */
+
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { ProgramDay, WorkoutSlot, MuscleGroup } from '@/types';
 import { generateId } from '@/utils/ids';
 
-/** Default 7-day program from user's spec */
+/** Generate the default 7-day program with predefined muscle group slots */
 const createDefaultProgram = (): ProgramDay[] => {
+  /** Helper to create a slot with a given muscle group (no exercise assigned initially) */
   const slot = (mg: MuscleGroup): WorkoutSlot => ({ id: generateId(), muscleGroup: mg, exerciseId: null });
 
   return [
@@ -20,12 +42,19 @@ const createDefaultProgram = (): ProgramDay[] => {
 
 interface ProgramState {
   days: ProgramDay[];
+  /** Link a specific exercise from the library to a program slot */
   assignExercise: (dayNumber: number, slotId: string, exerciseId: string) => void;
+  /** Remove exercise assignment from a slot (reverts to muscle-group-only display) */
   unassignExercise: (dayNumber: number, slotId: string) => void;
+  /** Add a new exercise slot to a day with the given muscle group */
   addSlot: (dayNumber: number, muscleGroup: MuscleGroup) => void;
+  /** Remove an exercise slot from a day */
   removeSlot: (dayNumber: number, slotId: string) => void;
+  /** Rename a day (e.g. change "PULL" to "UPPER") */
   updateDayLabel: (dayNumber: number, label: string) => void;
+  /** Reorder a slot within its day (swap with adjacent slot) */
   moveSlot: (dayNumber: number, slotId: string, direction: 'up' | 'down') => void;
+  /** Reset entire program to factory defaults — clears all customizations */
   resetProgram: () => void;
 }
 
@@ -82,7 +111,8 @@ export const useProgramStore = create<ProgramState>()(
             const idx = d.slots.findIndex((s) => s.id === slotId);
             if (idx === -1) return d;
             const newIdx = direction === 'up' ? idx - 1 : idx + 1;
-            if (newIdx < 0 || newIdx >= d.slots.length) return d;
+            if (newIdx < 0 || newIdx >= d.slots.length) return d; // boundary check
+            // Swap slots at idx and newIdx
             const newSlots = [...d.slots];
             [newSlots[idx], newSlots[newIdx]] = [newSlots[newIdx], newSlots[idx]];
             return { ...d, slots: newSlots };

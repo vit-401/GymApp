@@ -1,3 +1,14 @@
+/**
+ * @file Exercise library list with CRUD operations.
+ *
+ * Business context:
+ * - Displays all exercises the user has created in a scrollable list.
+ * - Each exercise shows: thumbnail (or placeholder), name, muscle group, weight type.
+ * - Actions: add new (opens form dialog), edit (opens form pre-filled), delete (with confirmation).
+ * - This list is the primary interface on the ExercisesPage.
+ * - Empty state guides users to create their first exercise.
+ */
+
 import { useState } from 'react';
 import { Plus, Pencil, Trash2, ImageOff } from 'lucide-react';
 import { useExercisesStore } from '@/features/exercises/stores/exercises.store';
@@ -12,18 +23,19 @@ export function ExerciseList() {
   const updateExercise = useExercisesStore((s) => s.updateExercise);
   const deleteExercise = useExercisesStore((s) => s.deleteExercise);
 
+  /* Dialog state for add and edit flows */
   const [addOpen, setAddOpen] = useState(false);
   const [editExercise, setEditExercise] = useState<Exercise | null>(null);
 
   return (
     <div className="flex flex-col gap-3">
-      {/* Add button */}
+      {/* Add exercise button — always visible at top */}
       <Button onClick={() => setAddOpen(true)} className="w-full">
         <Plus className="h-4 w-4 mr-2" />
         Add Exercise
       </Button>
 
-      {/* Exercise list */}
+      {/* Exercise list or empty state */}
       {exercises.length === 0 ? (
         <div className="text-center py-12 text-muted-foreground text-sm">
           <p>No exercises yet.</p>
@@ -36,6 +48,7 @@ export function ExerciseList() {
               key={ex.id}
               className="flex items-center gap-3 bg-card rounded-xl border border-border/50 p-3"
             >
+              {/* Exercise thumbnail or placeholder icon */}
               {ex.imageUrl ? (
                 <img
                   src={ex.imageUrl}
@@ -48,6 +61,7 @@ export function ExerciseList() {
                 </div>
               )}
 
+              {/* Exercise info: name + muscle group · weight type */}
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-medium truncate">{ex.name}</p>
                 <p className="text-xs text-muted-foreground">
@@ -55,6 +69,7 @@ export function ExerciseList() {
                 </p>
               </div>
 
+              {/* Action buttons: edit and delete */}
               <div className="flex gap-1 shrink-0">
                 <button
                   onClick={() => setEditExercise(ex)}
@@ -78,14 +93,14 @@ export function ExerciseList() {
         </div>
       )}
 
-      {/* Add dialog */}
+      {/* Add exercise dialog */}
       <ExerciseForm
         open={addOpen}
         onOpenChange={setAddOpen}
         onSubmit={(data) => addExercise(data)}
       />
 
-      {/* Edit dialog */}
+      {/* Edit exercise dialog — only rendered when an exercise is selected for editing */}
       {editExercise && (
         <ExerciseForm
           open={!!editExercise}
