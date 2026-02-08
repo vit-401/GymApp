@@ -1,0 +1,9 @@
+## AI change log
+
+- [2026-02-08T18:30:00Z] src/features/workout/components/ExerciseCard.tsx — Make unassigned exercise slots clickable; tap opens exercise picker dialog to assign exercise from workout page. Replace disabled opacity card with dashed-border + "Tap to assign" CTA. Add dayNumber prop.
+- [2026-02-08T18:30:00Z] src/features/workout/components/ExercisePickerDialog.tsx — New dialog: lists exercises filtered by muscle group, allows quick assignment from workout page. Shows empty state if no exercises exist for the group.
+- [2026-02-08T18:30:00Z] src/features/workout/components/WorkoutDayView.tsx — Pass currentDayNumber to ExerciseCard as dayNumber prop for exercise assignment wiring.
+- [2026-02-08T18:45:00Z] src/features/workout/components/ExerciseCard.tsx — Rewrite: slots ARE the exercises (fixed). Every card now shows muscle group label + "+" button to log sets. Removed exercise picker, removed Exercise dependency. Uses slot.id as exerciseId.
+- [2026-02-08T18:45:00Z] src/features/workout/components/AddSetDialog.tsx — Simplified: no longer requires Exercise object. Accepts name string. Always shows reps + weight + multiplier inputs. Added useEffect to sync lastSet defaults.
+- [2026-02-08T18:45:00Z] src/features/workout/components/WorkoutDayView.tsx — Removed dayNumber prop from ExerciseCard (no longer needed).
+- [2026-02-08T18:45:00Z] src/features/workout/components/ExercisePickerDialog.tsx — Deleted, not needed since exercises are fixed slots.

@@ -1,0 +1,59 @@
+---
+description: Key Valuable UI/UX Principles used across FAANG/MAANG companies
+globs: 
+alwaysApply: true
+---
+
+## Key Valuable UI/UX Principles used across FAANG / MAANG companies 👇
+
+### 1. Clarity
+
+* Simple, obvious, purpose-driven design.
+* Clear hierarchy: one main action per screen.
+* Minimal visual noise, maximum readability.
+
+### 2. Consistency
+
+* Unified design system (spacing, colors, typography).
+* Predictable interactions → builds user trust.
+* Reuse components instead of reinventing.
+
+### 3. Feedback & Responsiveness
+
+* Every action gives visible feedback (hover, loading, success).
+* Smooth, quick transitions — feels alive, not static.
+* Skeletons or shimmer loading states improve perceived speed.
+
+### 4. Accessibility
+
+* High contrast, large tap targets, semantic HTML.
+* Keyboard navigation and screen reader support.
+* "Inclusive by default" mindset.
+
+### 5. Performance
+
+* Optimize for speed: lazy-load, compress assets, prefetch routes.
+* Avoid heavy UI libraries; focus on smooth UX.
+* Perceived speed > technical speed.
+
+### 6. Data-Driven Iteration
+
+* Measure everything (CTR, retention, conversion).
+* A/B test before wide rollout.
+* Constantly refine based on real user behavior.
+
+### 7. Emotion & Delight
+
+* Add micro-animations, sound, or haptics sparingly.
+* Build warmth and connection into the product.
+* Subtle joy → long-term engagement.
+
+### 8. System Thinking
+
+* Design for scalability, not one-off screens.
+* Create reusable tokens → components → patterns.
+* Enables fast iteration and consistent branding.
+
+### Summary:
+
+**"Clarity, Consistency, Feedback, Accessibility, Performance, Emotion, and System Thinking — executed with data and empathy."**
