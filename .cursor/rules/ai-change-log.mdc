@@ -37,3 +37,8 @@
 - [2026-02-13T04:49:03Z] src/features/workout/components/ExerciseCard.tsx — Improve exercise photo UX: enlarge thumbnail in card, use dark large preview modal with contained image, and strengthen close button visibility for reliable open/close behavior.
 - [2026-02-13T04:50:43Z] src/features/workout/components/ExerciseCard.tsx — Remove duplicate custom close button from image preview modal and keep only default dialog close control to avoid two X buttons.
 - [2026-02-13T04:51:56Z] src/features/workout/components/ExerciseCard.tsx — Add hidden dialog title and description in image preview modal to satisfy DialogContent accessibility requirement for screen readers without changing visual UI.
+- [2026-02-13T05:23:42Z] WORKOUT-PROGRAM.md — Refactor workout documentation into clean per-day markdown tables with explicit rest column and consistent formatting; keep 120s default and 60s for ABS/Calves for readability.
+- [2026-02-13T05:25:07Z] WORKOUT-PROGRAM.md — Add photo filename column for every exercise row across D1–D7 tables to map each slot to its unique image asset alongside rest seconds.
+- [2026-02-13T05:00:00Z] WORKOUT-PROGRAM.md — New file: 7-day program structure with muscle groups and rest seconds (120s default, 60s for ABS and Calves).
+- [2026-02-13T06:15:00Z] src/types/index.ts — Add REST_SECONDS_BY_MUSCLE_GROUP constant mapping each muscle group to its rest duration (120s default, 60s for ABS/Calves).
+- [2026-02-13T06:15:00Z] src/features/workout/components/WorkoutDayView.tsx — Auto-set rest timer after logging a set; derives rest seconds from the slot's muscle group via REST_SECONDS_BY_MUSCLE_GROUP so timer is ready to start.

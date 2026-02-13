@@ -48,6 +48,25 @@ export const MUSCLE_GROUP_LABELS: Record<MuscleGroup, string> = {
   traps: 'Traps',
 };
 
+/**
+ * Rest duration (seconds) per muscle group, used to auto-set the timer after logging a set.
+ * Rule: ABS and Calves → 60s, everything else → 120s (matches WORKOUT-PROGRAM.md).
+ */
+export const REST_SECONDS_BY_MUSCLE_GROUP: Record<MuscleGroup, number> = {
+  back: 120,
+  biceps: 120,
+  rear_delts: 120,
+  abs: 60,
+  chest: 120,
+  shoulders: 120,
+  triceps: 120,
+  legs: 120,
+  hamstring: 120,
+  calves: 60,
+  quads: 120,
+  traps: 120,
+};
+
 /** Human-readable labels for weight/equipment types, shown in exercise forms */
 export const WEIGHT_TYPE_LABELS: Record<WeightType, string> = {
   dumbbell: 'Dumbbell',

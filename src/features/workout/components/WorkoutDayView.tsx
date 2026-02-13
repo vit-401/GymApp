@@ -32,6 +32,8 @@ import {
 import { formatSessionText } from '@/features/workout/utils/export';
 import { getPreviousExerciseStats } from '@/features/workout/utils/previous-stats';
 import type { WorkoutSet } from '@/types';
+import { REST_SECONDS_BY_MUSCLE_GROUP } from '@/types';
+import { useTimerStore } from '@/stores/timer.store';
 
 export function WorkoutDayView() {
   /* Store selectors */
@@ -72,13 +74,20 @@ export function WorkoutDayView() {
 
   /* All hooks must be declared before any early returns (React rules of hooks) */
 
-  /** Add a set to the current session via the workout store */
+  /** Add a set to the current session via the workout store, then auto-set rest timer */
   const handleAddSet = useCallback(
     (slotId: string, exerciseId: string, setData: Omit<WorkoutSet, 'id'>) => {
       if (!session) return;
       addSet(session.id, slotId, exerciseId, setData);
+
+      // Auto-set rest timer to the slot's rest duration (e.g. 120s for compound, 60s for ABS/Calves)
+      const slot = currentDay?.slots.find((s) => s.id === slotId);
+      if (slot) {
+        const restSeconds = REST_SECONDS_BY_MUSCLE_GROUP[slot.muscleGroup];
+        useTimerStore.getState().setRemaining(restSeconds);
+      }
     },
-    [session, addSet]
+    [session, addSet, currentDay]
   );
 
   /** Remove a set from the current session via the workout store */
