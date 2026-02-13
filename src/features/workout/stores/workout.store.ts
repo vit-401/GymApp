@@ -17,7 +17,8 @@
  */
 
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { persist, createJSONStorage } from 'zustand/middleware';
+import { fallbackStorage } from '@/utils/storage';
 import type { WorkoutSession, SessionExercise, WorkoutSet } from '@/types';
 import { generateId } from '@/utils/ids';
 import { getToday } from '@/utils/date';
@@ -170,6 +171,6 @@ export const useWorkoutStore = create<WorkoutState>()(
 
       clearSessions: () => set({ sessions: [] }),
     }),
-    { name: 'gymapp-workouts' }
+    { name: 'gymapp-workouts', storage: createJSONStorage(() => fallbackStorage) }
   )
 );

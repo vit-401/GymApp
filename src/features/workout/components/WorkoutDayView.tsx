@@ -30,6 +30,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { formatSessionText } from '@/features/workout/utils/export';
+import { getPreviousExerciseStats } from '@/features/workout/utils/previous-stats';
 import type { WorkoutSet } from '@/types';
 
 export function WorkoutDayView() {
@@ -183,15 +184,18 @@ export function WorkoutDayView() {
     <div className="flex flex-col gap-3 px-4 pb-4">
       {/* Render one ExerciseCard per program slot */}
       {currentDay.slots.map((slot) => {
-        const sessionExercise = freshSession?.exercises.find(
-          (e) => e.slotId === slot.id
-        );
+        const effectiveExerciseId = slot.exerciseId ?? slot.id;
+        const exercise = slot.exerciseId ? getExerciseById(slot.exerciseId) : undefined;
+        const sessionExercise = freshSession?.exercises.find((e) => e.slotId === slot.id);
+        const previousStats = getPreviousExerciseStats(sessions, effectiveExerciseId, session?.id);
 
         return (
           <ExerciseCard
             key={slot.id}
             slot={slot}
+            exercise={exercise}
             sessionExercise={sessionExercise}
+            previousStats={previousStats}
             onAddSet={handleAddSet}
             onRemoveSet={handleRemoveSet}
             readOnly={isCompleted}

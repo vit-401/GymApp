@@ -11,9 +11,11 @@
  */
 
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { persist, createJSONStorage } from 'zustand/middleware';
+import { fallbackStorage } from '@/utils/storage';
 import type { Exercise, MuscleGroup, WeightType } from '@/types';
 import { generateId } from '@/utils/ids';
+import { DEFAULT_EXERCISES } from '@/features/exercises/default-exercises';
 
 interface ExercisesState {
   exercises: Exercise[];
@@ -29,10 +31,18 @@ interface ExercisesState {
   getExerciseById: (id: string) => Exercise | undefined;
 }
 
+/** Seed defaults by image uniqueness so existing custom IDs are preserved. */
+const mergeWithDefaultExercises = (source: Exercise[]): Exercise[] => {
+  if (source.length === 0) return [...DEFAULT_EXERCISES];
+  const existingImages = new Set(source.map((exercise) => exercise.imageUrl));
+  const missingDefaults = DEFAULT_EXERCISES.filter((exercise) => !existingImages.has(exercise.imageUrl));
+  return missingDefaults.length > 0 ? [...source, ...missingDefaults] : source;
+};
+
 export const useExercisesStore = create<ExercisesState>()(
   persist(
     (set, get) => ({
-      exercises: [],
+      exercises: mergeWithDefaultExercises([]),
 
       addExercise: (data) => {
         const exercise: Exercise = { id: generateId(), ...data };
@@ -53,7 +63,19 @@ export const useExercisesStore = create<ExercisesState>()(
 
       getExerciseById: (id: string) => get().exercises.find((e) => e.id === id),
     }),
-    { name: 'gymapp-exercises' }
+    {
+      name: 'gymapp-exercises',
+      storage: createJSONStorage(() => fallbackStorage),
+      merge: (persistedState, currentState) => {
+        const persisted = persistedState as Partial<ExercisesState>;
+        const persistedExercises = Array.isArray(persisted.exercises) ? persisted.exercises : [];
+        return {
+          ...currentState,
+          ...persisted,
+          exercises: mergeWithDefaultExercises(persistedExercises),
+        };
+      },
+    }
   )
 );
 

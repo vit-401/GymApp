@@ -20,6 +20,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import type { WorkoutSet } from '@/types';
+import type { PreviousExerciseStats } from '@/features/workout/utils/previous-stats';
 
 interface AddSetDialogProps {
   open: boolean;
@@ -30,9 +31,31 @@ interface AddSetDialogProps {
   onAdd: (set: Omit<WorkoutSet, 'id'>) => void;
   /** Last logged set — used to pre-fill inputs for quick repeat entry */
   lastSet?: WorkoutSet;
+  /** Last completed performance for this exact exercise identity */
+  previousStats?: PreviousExerciseStats;
 }
 
-export function AddSetDialog({ open, onOpenChange, name, onAdd, lastSet }: AddSetDialogProps) {
+/** Format a single set for inline display (e.g. "12 reps · 2×65 lbs") */
+const formatSetLine = (set: WorkoutSet): string => {
+  const parts = [`${set.reps} reps`];
+  if (typeof set.weight === 'number') {
+    if (typeof set.multiplier === 'number' && set.multiplier > 1) {
+      parts.push(`${set.multiplier}×${set.weight} lbs`);
+    } else {
+      parts.push(`${set.weight} lbs`);
+    }
+  }
+  return parts.join(' · ');
+};
+
+export function AddSetDialog({
+  open,
+  onOpenChange,
+  name,
+  onAdd,
+  lastSet,
+  previousStats,
+}: AddSetDialogProps) {
   /* Form state — initialized from lastSet for convenience */
   const [reps, setReps] = useState(lastSet?.reps?.toString() ?? '12');
   const [weight, setWeight] = useState(lastSet?.weight?.toString() ?? '');
@@ -76,6 +99,20 @@ export function AddSetDialog({ open, onOpenChange, name, onAdd, lastSet }: AddSe
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-3 mt-2">
+          {previousStats && previousStats.sets.length > 0 && (
+            <div className="rounded-md border border-border/60 bg-secondary/40 p-2.5 text-xs">
+              <p className="font-semibold text-foreground mb-1">Last time</p>
+              <div className="flex flex-col gap-0.5">
+                {previousStats.sets.map((prevSet, idx) => (
+                  <div key={prevSet.id} className="flex items-center text-muted-foreground">
+                    <span className="w-5 shrink-0">#{idx + 1}</span>
+                    <span>{formatSetLine(prevSet)}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
           {/* Reps input — required, numeric */}
           <div>
             <label className="text-xs text-muted-foreground mb-1 block">Reps</label>

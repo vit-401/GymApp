@@ -13,7 +13,8 @@
  */
 
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { persist, createJSONStorage } from 'zustand/middleware';
+import { fallbackStorage } from '@/utils/storage';
 
 interface TimerState {
   /** Default rest duration in seconds (user-configurable in Settings) */
@@ -114,6 +115,7 @@ export const useTimerStore = create<TimerState>()(
     }),
     {
       name: 'gymapp-timer',
+      storage: createJSONStorage(() => fallbackStorage),
       // Only persist the default duration — running state resets on reload
       partialize: (state) => ({ defaultDuration: state.defaultDuration }),
     }

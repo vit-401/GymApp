@@ -10,7 +10,8 @@
  */
 
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { persist, createJSONStorage } from 'zustand/middleware';
+import { fallbackStorage } from '@/utils/storage';
 import type { BodyMetric } from '@/types';
 import { generateId } from '@/utils/ids';
 
@@ -43,6 +44,6 @@ export const useMetricsStore = create<MetricsState>()(
 
       clearMetrics: () => set({ metrics: [] }),
     }),
-    { name: 'gymapp-metrics' }
+    { name: 'gymapp-metrics', storage: createJSONStorage(() => fallbackStorage) }
   )
 );

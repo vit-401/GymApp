@@ -13,17 +13,26 @@
 import { Outlet } from 'react-router-dom';
 import { BottomNav } from './BottomNav';
 import { Timer } from '@/components/Timer/Timer';
+import { useTimerStore } from '@/stores/timer.store';
+import { cn } from '@/utils/cn';
 
 export function AppLayout() {
+  const isRunning = useTimerStore((s) => s.isRunning);
+
   return (
-    <div className="flex flex-col h-dvh bg-background">
+    <div className="relative flex flex-col h-dvh bg-background">
+      {/* Pulsing green border overlay — visible on top of all content */}
+      {isRunning && (
+        <div className="absolute inset-0 z-50 pointer-events-none animate-border-pulse" />
+      )}
+
       {/* Scrollable page content — each page renders here via router */}
       <main className="flex-1 overflow-y-auto no-scrollbar">
         <Outlet />
       </main>
 
       {/* Persistent rest timer — always visible so users can track rest between sets */}
-      <div className="relative shrink-0">
+      <div className={cn('relative shrink-0', isRunning && 'animate-timer-top')}>
         <Timer />
       </div>
 

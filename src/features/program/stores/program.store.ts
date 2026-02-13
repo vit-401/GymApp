@@ -20,23 +20,113 @@
  */
 
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { persist, createJSONStorage } from 'zustand/middleware';
+import { fallbackStorage } from '@/utils/storage';
 import type { ProgramDay, WorkoutSlot, MuscleGroup } from '@/types';
 import { generateId } from '@/utils/ids';
 
+const DEFAULT_PROGRAM_BLUEPRINT: Record<number, Array<{ muscleGroup: MuscleGroup; exerciseId: string }>> = {
+  1: [
+    { muscleGroup: 'back', exerciseId: 'seed-back-1' },
+    { muscleGroup: 'back', exerciseId: 'seed-back-2' },
+    { muscleGroup: 'biceps', exerciseId: 'seed-biceps-1' },
+    { muscleGroup: 'rear_delts', exerciseId: 'seed-rear-delts-1' },
+    { muscleGroup: 'abs', exerciseId: 'seed-abs-1' },
+  ],
+  2: [
+    { muscleGroup: 'chest', exerciseId: 'seed-chest-1' },
+    { muscleGroup: 'shoulders', exerciseId: 'seed-shoulders-2' },
+    { muscleGroup: 'chest', exerciseId: 'seed-chest-2' },
+    { muscleGroup: 'shoulders', exerciseId: 'seed-shoulders-1' },
+    { muscleGroup: 'triceps', exerciseId: 'seed-triceps-1' },
+  ],
+  3: [
+    { muscleGroup: 'legs', exerciseId: 'seed-legs-1' },
+    { muscleGroup: 'hamstring', exerciseId: 'seed-hamstring-1' },
+    { muscleGroup: 'legs', exerciseId: 'seed-legs-2' },
+    { muscleGroup: 'calves', exerciseId: 'seed-calves-1' },
+  ],
+  4: [],
+  5: [
+    { muscleGroup: 'legs', exerciseId: 'seed-legs-3' },
+    { muscleGroup: 'back', exerciseId: 'seed-back-1' },
+    { muscleGroup: 'back', exerciseId: 'seed-back-3' },
+    { muscleGroup: 'biceps', exerciseId: 'seed-biceps-2' },
+    { muscleGroup: 'traps', exerciseId: 'seed-traps-1' },
+    { muscleGroup: 'abs', exerciseId: 'seed-abs-1' },
+  ],
+  6: [
+    { muscleGroup: 'chest', exerciseId: 'seed-chest-1' },
+    { muscleGroup: 'shoulders', exerciseId: 'seed-shoulders-3' },
+    { muscleGroup: 'chest', exerciseId: 'seed-chest-3' },
+    { muscleGroup: 'shoulders', exerciseId: 'seed-shoulders-1' },
+    { muscleGroup: 'triceps', exerciseId: 'seed-triceps-2' },
+  ],
+  7: [
+    { muscleGroup: 'legs', exerciseId: 'seed-legs-1' },
+    { muscleGroup: 'hamstring', exerciseId: 'seed-hamstring-2' },
+    { muscleGroup: 'quads', exerciseId: 'seed-quads-1' },
+    { muscleGroup: 'calves', exerciseId: 'seed-calves-1' },
+  ],
+};
+
+/**
+ * Fill missing slot exercise assignments for legacy persisted programs.
+ * Keeps custom structure untouched; only backfills null exerciseId when index+muscleGroup match blueprint.
+ */
+const backfillDefaultAssignments = (days: ProgramDay[]): ProgramDay[] =>
+  days.map((day) => {
+    const blueprint = DEFAULT_PROGRAM_BLUEPRINT[day.dayNumber];
+    if (!blueprint || blueprint.length === 0) return day;
+
+    const nextSlots = day.slots.map((slot, index) => {
+      if (slot.exerciseId) return slot;
+      const defaultSlot = blueprint[index];
+      if (!defaultSlot) return slot;
+      if (slot.muscleGroup !== defaultSlot.muscleGroup) return slot;
+      return { ...slot, exerciseId: defaultSlot.exerciseId };
+    });
+
+    return { ...day, slots: nextSlots };
+  });
+
 /** Generate the default 7-day program with predefined muscle group slots */
 const createDefaultProgram = (): ProgramDay[] => {
-  /** Helper to create a slot with a given muscle group (no exercise assigned initially) */
-  const slot = (mg: MuscleGroup): WorkoutSlot => ({ id: generateId(), muscleGroup: mg, exerciseId: null });
+  /** Helper to create a slot with pre-bound exercise identity */
+  const slot = (mg: MuscleGroup, exerciseId: string): WorkoutSlot => ({ id: generateId(), muscleGroup: mg, exerciseId });
 
   return [
-    { dayNumber: 1, label: 'PULL', slots: [slot('back'), slot('back'), slot('biceps'), slot('rear_delts'), slot('abs')] },
-    { dayNumber: 2, label: 'PUSH', slots: [slot('chest'), slot('shoulders'), slot('chest'), slot('shoulders'), slot('triceps')] },
-    { dayNumber: 3, label: 'LEGS', slots: [slot('legs'), slot('hamstring'), slot('legs'), slot('calves')] },
+    {
+      dayNumber: 1,
+      label: 'PULL',
+      slots: DEFAULT_PROGRAM_BLUEPRINT[1].map((s) => slot(s.muscleGroup, s.exerciseId)),
+    },
+    {
+      dayNumber: 2,
+      label: 'PUSH',
+      slots: DEFAULT_PROGRAM_BLUEPRINT[2].map((s) => slot(s.muscleGroup, s.exerciseId)),
+    },
+    {
+      dayNumber: 3,
+      label: 'LEGS',
+      slots: DEFAULT_PROGRAM_BLUEPRINT[3].map((s) => slot(s.muscleGroup, s.exerciseId)),
+    },
     { dayNumber: 4, label: 'REST', slots: [] },
-    { dayNumber: 5, label: 'PULL', slots: [slot('legs'), slot('back'), slot('back'), slot('biceps'), slot('traps'), slot('abs')] },
-    { dayNumber: 6, label: 'PUSH', slots: [slot('chest'), slot('shoulders'), slot('chest'), slot('shoulders'), slot('triceps')] },
-    { dayNumber: 7, label: 'LEGS', slots: [slot('legs'), slot('hamstring'), slot('quads'), slot('calves')] },
+    {
+      dayNumber: 5,
+      label: 'PULL',
+      slots: DEFAULT_PROGRAM_BLUEPRINT[5].map((s) => slot(s.muscleGroup, s.exerciseId)),
+    },
+    {
+      dayNumber: 6,
+      label: 'PUSH',
+      slots: DEFAULT_PROGRAM_BLUEPRINT[6].map((s) => slot(s.muscleGroup, s.exerciseId)),
+    },
+    {
+      dayNumber: 7,
+      label: 'LEGS',
+      slots: DEFAULT_PROGRAM_BLUEPRINT[7].map((s) => slot(s.muscleGroup, s.exerciseId)),
+    },
   ];
 };
 
@@ -121,6 +211,18 @@ export const useProgramStore = create<ProgramState>()(
 
       resetProgram: () => set({ days: createDefaultProgram() }),
     }),
-    { name: 'gymapp-program' }
+    {
+      name: 'gymapp-program',
+      storage: createJSONStorage(() => fallbackStorage),
+      merge: (persistedState, currentState) => {
+        const persisted = persistedState as Partial<ProgramState>;
+        const persistedDays = Array.isArray(persisted.days) ? persisted.days : currentState.days;
+        return {
+          ...currentState,
+          ...persisted,
+          days: backfillDefaultAssignments(persistedDays),
+        };
+      },
+    }
   )
 );

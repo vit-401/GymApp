@@ -14,7 +14,7 @@
 
 import { useState } from 'react';
 import { Plus, X } from 'lucide-react';
-import type { WorkoutSlot, SessionExercise, WorkoutSet } from '@/types';
+import type { Exercise, WorkoutSlot, SessionExercise, WorkoutSet } from '@/types';
 import { MUSCLE_GROUP_LABELS } from '@/types';
 import { AddSetDialog } from './AddSetDialog';
 import { Button } from '@/components/ui/button';
@@ -26,12 +26,17 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { cn } from '@/utils/cn';
+import type { PreviousExerciseStats } from '@/features/workout/utils/previous-stats';
 
 interface ExerciseCardProps {
   /** The program slot this card represents (muscle group + optional exercise assignment) */
   slot: WorkoutSlot;
+  /** Resolved assigned exercise entity (when slot has exerciseId) */
+  exercise?: Exercise;
   /** Logged sets for this slot in the current session (undefined if no sets logged yet) */
   sessionExercise?: SessionExercise;
+  /** Latest earlier performance for the same exercise identity */
+  previousStats?: PreviousExerciseStats;
   /** Callback to add a new set — (slotId, exerciseId, setData) */
   onAddSet: (slotId: string, exerciseId: string, set: Omit<WorkoutSet, 'id'>) => void;
   /** Callback to remove a set — (slotId, setId) */
@@ -56,8 +61,17 @@ function formatSet(set: WorkoutSet): string {
   return parts.join(' · ');
 }
 
-export function ExerciseCard({ slot, sessionExercise, onAddSet, onRemoveSet, readOnly }: ExerciseCardProps) {
+export function ExerciseCard({
+  slot,
+  exercise,
+  sessionExercise,
+  previousStats,
+  onAddSet,
+  onRemoveSet,
+  readOnly,
+}: ExerciseCardProps) {
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [imagePreviewOpen, setImagePreviewOpen] = useState(false);
   /* Confirmation dialog state for set deletion */
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [pendingDeleteId, setPendingDeleteId] = useState<string | null>(null);
@@ -78,17 +92,33 @@ export function ExerciseCard({ slot, sessionExercise, onAddSet, onRemoveSet, rea
 
   const sets = sessionExercise?.sets ?? [];
   const lastSet = sets.length > 0 ? sets[sets.length - 1] : undefined;
-  const label = MUSCLE_GROUP_LABELS[slot.muscleGroup];
+  const label = exercise?.name ?? MUSCLE_GROUP_LABELS[slot.muscleGroup];
+  const effectiveExerciseId = slot.exerciseId ?? slot.id;
 
   return (
     <>
       <div className="bg-card rounded-xl border border-border/50 overflow-hidden">
         {/* Card header: muscle group icon, label, set count, add button */}
         <div className="flex items-center gap-3 p-3">
-          {/* First-letter avatar as a simple visual identifier */}
-          <div className="w-12 h-12 rounded-lg bg-secondary flex items-center justify-center text-lg font-bold text-muted-foreground">
-            {label.charAt(0)}
-          </div>
+          {/* Exercise thumbnail — click to preview full-size image */}
+          {exercise?.imageUrl ? (
+            <button
+              type="button"
+              onClick={() => setImagePreviewOpen(true)}
+              className="w-14 h-14 rounded-lg overflow-hidden border border-border/60 shrink-0 focus:outline-none focus:ring-2 focus:ring-primary/50 hover:opacity-90 transition-opacity"
+              aria-label={`Preview ${label}`}
+            >
+              <img
+                src={exercise.imageUrl}
+                alt={label}
+                className="w-full h-full object-cover"
+              />
+            </button>
+          ) : (
+            <div className="w-12 h-12 rounded-lg bg-secondary flex items-center justify-center text-lg font-bold text-muted-foreground">
+              {label.charAt(0)}
+            </div>
+          )}
 
           <div className="flex-1 min-w-0">
             <p className="text-sm font-semibold truncate">{label}</p>
@@ -108,6 +138,24 @@ export function ExerciseCard({ slot, sessionExercise, onAddSet, onRemoveSet, rea
             </button>
           )}
         </div>
+
+        {/* Previous session full set-by-set breakdown */}
+        {previousStats && previousStats.sets.length > 0 && sets.length === 0 && (
+          <div className="px-3 pb-2">
+            <p className="text-[11px] font-medium text-muted-foreground mb-1">Last time:</p>
+            <div className="flex flex-col gap-0.5">
+              {previousStats.sets.map((prevSet, idx) => (
+                <div
+                  key={prevSet.id}
+                  className="flex items-center py-0.5 px-2 rounded text-[11px] text-muted-foreground"
+                >
+                  <span className="w-5">#{idx + 1}</span>
+                  <span>{formatSet(prevSet)}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Logged sets list */}
         {sets.length > 0 && (
@@ -138,12 +186,32 @@ export function ExerciseCard({ slot, sessionExercise, onAddSet, onRemoveSet, rea
         )}
       </div>
 
+      {/* Image preview dialog — tap thumbnail to view full-size */}
+      {exercise?.imageUrl && (
+        <Dialog open={imagePreviewOpen} onOpenChange={setImagePreviewOpen}>
+          <DialogContent className="w-[calc(100vw-2rem)] max-w-4xl max-h-[90vh] p-2 sm:p-3 overflow-hidden bg-black/95 border-border/40">
+            <DialogHeader className="sr-only">
+              <DialogTitle>{label} image preview</DialogTitle>
+              <DialogDescription>Full-size exercise image preview dialog.</DialogDescription>
+            </DialogHeader>
+            <div>
+              <img
+                src={exercise.imageUrl}
+                alt={label}
+                className="w-full max-h-[82vh] object-contain rounded-md"
+              />
+            </div>
+          </DialogContent>
+        </Dialog>
+      )}
+
       {/* Add set dialog — pre-fills from last set for quick repeat */}
       <AddSetDialog
         open={dialogOpen}
         onOpenChange={setDialogOpen}
         name={label}
-        onAdd={(setData) => onAddSet(slot.id, slot.id, setData)}
+        previousStats={previousStats}
+        onAdd={(setData) => onAddSet(slot.id, effectiveExerciseId, setData)}
         lastSet={lastSet}
       />
 
