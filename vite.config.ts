@@ -6,6 +6,7 @@ import mkcert from 'vite-plugin-mkcert';
 import path from 'path';
 
 export default defineConfig({
+  base: '/GymApp/',
   plugins: [
     react(),
     tailwindcss(),
@@ -21,21 +22,21 @@ export default defineConfig({
         background_color: '#0f172a',
         display: 'standalone',
         orientation: 'portrait',
-        scope: '/',
-        start_url: '/',
+        scope: '/GymApp/',
+        start_url: '/GymApp/',
         icons: [
           {
-            src: '/icons/icon-192x192.png',
+            src: '/GymApp/icons/icon-192x192.png',
             sizes: '192x192',
             type: 'image/png',
           },
           {
-            src: '/icons/icon-512x512.png',
+            src: '/GymApp/icons/icon-512x512.png',
             sizes: '512x512',
             type: 'image/png',
           },
           {
-            src: '/icons/icon-512x512.png',
+            src: '/GymApp/icons/icon-512x512.png',
             sizes: '512x512',
             type: 'image/png',
             purpose: 'maskable',

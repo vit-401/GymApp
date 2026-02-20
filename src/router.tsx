@@ -24,17 +24,20 @@ import { ExercisesPage } from '@/pages/ExercisesPage';
 import { ProgramPage } from '@/pages/ProgramPage';
 import { SettingsPage } from '@/pages/SettingsPage';
 
-export const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <AppLayout />,
-    children: [
-      { index: true, element: <WorkoutPage /> },
-      { path: 'calendar', element: <CalendarPage /> },
-      { path: 'metrics', element: <MetricsPage /> },
-      { path: 'exercises', element: <ExercisesPage /> },
-      { path: 'program', element: <ProgramPage /> },
-      { path: 'settings', element: <SettingsPage /> },
-    ],
-  },
-]);
+export const router = createBrowserRouter(
+  [
+    {
+      path: '/',
+      element: <AppLayout />,
+      children: [
+        { index: true, element: <WorkoutPage /> },
+        { path: 'calendar', element: <CalendarPage /> },
+        { path: 'metrics', element: <MetricsPage /> },
+        { path: 'exercises', element: <ExercisesPage /> },
+        { path: 'program', element: <ProgramPage /> },
+        { path: 'settings', element: <SettingsPage /> },
+      ],
+    },
+  ],
+  { basename: '/GymApp' }
+);
