@@ -139,9 +139,9 @@ export function ExerciseCard({
           )}
         </div>
 
-        {/* Previous session full set-by-set breakdown */}
-        {previousStats && previousStats.sets.length > 0 && sets.length === 0 && (
-          <div className="px-3 pb-2">
+        {/* Previous session full set-by-set breakdown — dimmed once user starts logging */}
+        {previousStats && previousStats.sets.length > 0 && (
+          <div className={cn('px-3 pb-2', sets.length > 0 && 'opacity-60')}>
             <p className="text-[11px] font-medium text-muted-foreground mb-1">Last time:</p>
             <div className="flex flex-col gap-0.5">
               {previousStats.sets.map((prevSet, idx) => (

@@ -1,0 +1,1878 @@
+{
+  "gymapp-workouts": {
+    "state": {
+      "sessions": [
+        {
+          "id": "hist-2026-02-03-d5",
+          "date": "2026-02-03",
+          "dayNumber": 5,
+          "dayLabel": "PULL",
+          "completed": true,
+          "completedAt": "2026-02-03T20:00:00.000Z",
+          "exercises": [
+            {
+              "slotId": "hist-d5-s0",
+              "exerciseId": "seed-legs-3",
+              "sets": [
+                {
+                  "id": "hist-1",
+                  "reps": 12,
+                  "weight": 45,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-2",
+                  "reps": 10,
+                  "weight": 70,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-3",
+                  "reps": 10,
+                  "weight": 80,
+                  "multiplier": 2
+                }
+              ]
+            },
+            {
+              "slotId": "hist-d5-s1",
+              "exerciseId": "seed-back-1",
+              "sets": [
+                {
+                  "id": "hist-4",
+                  "reps": 12
+                },
+                {
+                  "id": "hist-5",
+                  "reps": 9
+                },
+                {
+                  "id": "hist-6",
+                  "reps": 7
+                }
+              ]
+            },
+            {
+              "slotId": "hist-d5-s2",
+              "exerciseId": "seed-back-3",
+              "sets": [
+                {
+                  "id": "hist-7",
+                  "reps": 12,
+                  "weight": 30,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-8",
+                  "reps": 10,
+                  "weight": 40,
+                  "multiplier": 2
+                }
+              ]
+            },
+            {
+              "slotId": "hist-d5-s3",
+              "exerciseId": "seed-biceps-2",
+              "sets": [
+                {
+                  "id": "hist-9",
+                  "reps": 12,
+                  "weight": 25,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-10",
+                  "reps": 12,
+                  "weight": 30,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-11",
+                  "reps": 11,
+                  "weight": 40,
+                  "multiplier": 2
+                }
+              ]
+            },
+            {
+              "slotId": "hist-d5-s4",
+              "exerciseId": "seed-traps-1",
+              "sets": [
+                {
+                  "id": "hist-12",
+                  "reps": 12,
+                  "weight": 45,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-13",
+                  "reps": 12,
+                  "weight": 45,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-14",
+                  "reps": 12,
+                  "weight": 50,
+                  "multiplier": 2
+                }
+              ]
+            },
+            {
+              "slotId": "hist-d5-s5",
+              "exerciseId": "seed-abs-1",
+              "sets": [
+                {
+                  "id": "hist-15",
+                  "reps": 11
+                },
+                {
+                  "id": "hist-16",
+                  "reps": 11
+                },
+                {
+                  "id": "hist-17",
+                  "reps": 8
+                },
+                {
+                  "id": "hist-18",
+                  "reps": 7
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "hist-2026-02-04-d6",
+          "date": "2026-02-04",
+          "dayNumber": 6,
+          "dayLabel": "PUSH",
+          "completed": true,
+          "completedAt": "2026-02-04T20:00:00.000Z",
+          "exercises": [
+            {
+              "slotId": "hist-d6-s0",
+              "exerciseId": "seed-chest-1",
+              "sets": [
+                {
+                  "id": "hist-19",
+                  "reps": 12,
+                  "weight": 60,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-20",
+                  "reps": 10,
+                  "weight": 70,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-21",
+                  "reps": 5,
+                  "weight": 75,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-22",
+                  "reps": 5,
+                  "weight": 85,
+                  "multiplier": 2
+                }
+              ]
+            },
+            {
+              "slotId": "hist-d6-s1",
+              "exerciseId": "seed-shoulders-3",
+              "sets": [
+                {
+                  "id": "hist-23",
+                  "reps": 15,
+                  "weight": 10,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-24",
+                  "reps": 15,
+                  "weight": 10,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-25",
+                  "reps": 15,
+                  "weight": 15,
+                  "multiplier": 2
+                }
+              ]
+            },
+            {
+              "slotId": "hist-d6-s2",
+              "exerciseId": "seed-chest-3",
+              "sets": [
+                {
+                  "id": "hist-26",
+                  "reps": 20
+                },
+                {
+                  "id": "hist-27",
+                  "reps": 15,
+                  "weight": 14
+                },
+                {
+                  "id": "hist-28",
+                  "reps": 9,
+                  "weight": 14
+                }
+              ]
+            },
+            {
+              "slotId": "hist-d6-s3",
+              "exerciseId": "seed-shoulders-1",
+              "sets": [
+                {
+                  "id": "hist-29",
+                  "reps": 15,
+                  "weight": 20,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-30",
+                  "reps": 12,
+                  "weight": 20,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-31",
+                  "reps": 10,
+                  "weight": 20,
+                  "multiplier": 2
+                }
+              ]
+            },
+            {
+              "slotId": "hist-d6-s4",
+              "exerciseId": "seed-triceps-2",
+              "sets": [
+                {
+                  "id": "hist-32",
+                  "reps": 12,
+                  "weight": 20,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-33",
+                  "reps": 12,
+                  "weight": 20,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-34",
+                  "reps": 12,
+                  "weight": 25,
+                  "multiplier": 2
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "hist-2026-02-05-d7",
+          "date": "2026-02-05",
+          "dayNumber": 7,
+          "dayLabel": "LEGS",
+          "completed": true,
+          "completedAt": "2026-02-05T20:00:00.000Z",
+          "exercises": [
+            {
+              "slotId": "hist-d7-s0",
+              "exerciseId": "seed-legs-1",
+              "sets": [
+                {
+                  "id": "hist-35",
+                  "reps": 12,
+                  "weight": 45,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-36",
+                  "reps": 12,
+                  "weight": 55,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-37",
+                  "reps": 8,
+                  "weight": 70,
+                  "multiplier": 2
+                }
+              ]
+            },
+            {
+              "slotId": "hist-d7-s1",
+              "exerciseId": "seed-hamstring-2",
+              "sets": [
+                {
+                  "id": "hist-38",
+                  "reps": 15,
+                  "weight": 160
+                },
+                {
+                  "id": "hist-39",
+                  "reps": 20,
+                  "weight": 180
+                },
+                {
+                  "id": "hist-40",
+                  "reps": 14,
+                  "weight": 220
+                }
+              ]
+            },
+            {
+              "slotId": "hist-d7-s2",
+              "exerciseId": "seed-quads-1",
+              "sets": [
+                {
+                  "id": "hist-41",
+                  "reps": 12,
+                  "weight": 105
+                },
+                {
+                  "id": "hist-42",
+                  "reps": 12,
+                  "weight": 105
+                },
+                {
+                  "id": "hist-43",
+                  "reps": 12,
+                  "weight": 135
+                },
+                {
+                  "id": "hist-44",
+                  "reps": 12,
+                  "weight": 135
+                }
+              ]
+            },
+            {
+              "slotId": "hist-d7-s3",
+              "exerciseId": "seed-calves-1",
+              "sets": [
+                {
+                  "id": "hist-45",
+                  "reps": 20,
+                  "weight": 45
+                },
+                {
+                  "id": "hist-46",
+                  "reps": 16,
+                  "weight": 45
+                },
+                {
+                  "id": "hist-47",
+                  "reps": 16,
+                  "weight": 45
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "hist-2026-02-06-d1",
+          "date": "2026-02-06",
+          "dayNumber": 1,
+          "dayLabel": "PULL",
+          "completed": true,
+          "completedAt": "2026-02-06T20:00:00.000Z",
+          "exercises": [
+            {
+              "slotId": "hist-d1-s0",
+              "exerciseId": "seed-back-1",
+              "sets": [
+                {
+                  "id": "hist-48",
+                  "reps": 12
+                },
+                {
+                  "id": "hist-49",
+                  "reps": 9
+                },
+                {
+                  "id": "hist-50",
+                  "reps": 6
+                },
+                {
+                  "id": "hist-51",
+                  "reps": 6
+                }
+              ]
+            },
+            {
+              "slotId": "hist-d1-s1",
+              "exerciseId": "seed-back-2",
+              "sets": [
+                {
+                  "id": "hist-52",
+                  "reps": 15,
+                  "weight": 30,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-53",
+                  "reps": 12,
+                  "weight": 45,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-54",
+                  "reps": 10,
+                  "weight": 55,
+                  "multiplier": 2
+                }
+              ]
+            },
+            {
+              "slotId": "hist-d1-s2",
+              "exerciseId": "seed-biceps-1",
+              "sets": [
+                {
+                  "id": "hist-55",
+                  "reps": 12,
+                  "weight": 25,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-56",
+                  "reps": 12,
+                  "weight": 30,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-57",
+                  "reps": 12,
+                  "weight": 35,
+                  "multiplier": 2
+                }
+              ]
+            },
+            {
+              "slotId": "hist-d1-s3",
+              "exerciseId": "seed-rear-delts-1",
+              "sets": [
+                {
+                  "id": "hist-58",
+                  "reps": 15,
+                  "weight": 20,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-59",
+                  "reps": 12,
+                  "weight": 20,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-60",
+                  "reps": 13,
+                  "weight": 20,
+                  "multiplier": 2
+                }
+              ]
+            },
+            {
+              "slotId": "hist-d1-s4",
+              "exerciseId": "seed-abs-1",
+              "sets": [
+                {
+                  "id": "hist-61",
+                  "reps": 20
+                },
+                {
+                  "id": "hist-62",
+                  "reps": 12
+                },
+                {
+                  "id": "hist-63",
+                  "reps": 8
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "hist-2026-02-07-d2",
+          "date": "2026-02-07",
+          "dayNumber": 2,
+          "dayLabel": "PUSH",
+          "completed": true,
+          "completedAt": "2026-02-07T20:00:00.000Z",
+          "exercises": [
+            {
+              "slotId": "hist-d2-s0",
+              "exerciseId": "seed-chest-1",
+              "sets": [
+                {
+                  "id": "hist-64",
+                  "reps": 12,
+                  "weight": 65,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-65",
+                  "reps": 10,
+                  "weight": 75,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-66",
+                  "reps": 8,
+                  "weight": 85,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-67",
+                  "reps": 5,
+                  "weight": 90,
+                  "multiplier": 2
+                }
+              ]
+            },
+            {
+              "slotId": "hist-d2-s1",
+              "exerciseId": "seed-shoulders-2",
+              "sets": [
+                {
+                  "id": "hist-68",
+                  "reps": 15,
+                  "weight": 25,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-69",
+                  "reps": 12,
+                  "weight": 25,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-70",
+                  "reps": 11,
+                  "weight": 25,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-71",
+                  "reps": 6,
+                  "weight": 30,
+                  "multiplier": 2
+                }
+              ]
+            },
+            {
+              "slotId": "hist-d2-s2",
+              "exerciseId": "seed-chest-2",
+              "sets": [
+                {
+                  "id": "hist-72",
+                  "reps": 21,
+                  "weight": 35,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-73",
+                  "reps": 12,
+                  "weight": 45,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-74",
+                  "reps": 11,
+                  "weight": 45,
+                  "multiplier": 2
+                }
+              ]
+            },
+            {
+              "slotId": "hist-d2-s3",
+              "exerciseId": "seed-shoulders-1",
+              "sets": [
+                {
+                  "id": "hist-75",
+                  "reps": 11,
+                  "weight": 25,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-76",
+                  "reps": 10,
+                  "weight": 25,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-77",
+                  "reps": 8,
+                  "weight": 25,
+                  "multiplier": 2
+                }
+              ]
+            },
+            {
+              "slotId": "hist-d2-s4",
+              "exerciseId": "seed-triceps-1",
+              "sets": [
+                {
+                  "id": "hist-78",
+                  "reps": 12,
+                  "weight": 25,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-79",
+                  "reps": 12,
+                  "weight": 25,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-80",
+                  "reps": 12,
+                  "weight": 25,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-81",
+                  "reps": 9,
+                  "weight": 30,
+                  "multiplier": 2
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "hist-2026-02-08-d3",
+          "date": "2026-02-08",
+          "dayNumber": 3,
+          "dayLabel": "LEGS",
+          "completed": true,
+          "completedAt": "2026-02-08T20:00:00.000Z",
+          "exercises": [
+            {
+              "slotId": "hist-d3-s0",
+              "exerciseId": "seed-legs-1",
+              "sets": [
+                {
+                  "id": "hist-82",
+                  "reps": 15,
+                  "weight": 45,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-83",
+                  "reps": 15,
+                  "weight": 50,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-84",
+                  "reps": 12,
+                  "weight": 55,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-85",
+                  "reps": 7,
+                  "weight": 70,
+                  "multiplier": 2
+                }
+              ]
+            },
+            {
+              "slotId": "hist-d3-s1",
+              "exerciseId": "seed-hamstring-1",
+              "sets": [
+                {
+                  "id": "hist-86",
+                  "reps": 12,
+                  "weight": 50,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-87",
+                  "reps": 12,
+                  "weight": 60,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-88",
+                  "reps": 11,
+                  "weight": 70,
+                  "multiplier": 2
+                }
+              ]
+            },
+            {
+              "slotId": "hist-d3-s2",
+              "exerciseId": "seed-legs-2",
+              "sets": [
+                {
+                  "id": "hist-89",
+                  "reps": 12
+                },
+                {
+                  "id": "hist-90",
+                  "reps": 12
+                },
+                {
+                  "id": "hist-91",
+                  "reps": 12
+                }
+              ]
+            },
+            {
+              "slotId": "hist-d3-s3",
+              "exerciseId": "seed-calves-1",
+              "sets": [
+                {
+                  "id": "hist-92",
+                  "reps": 20,
+                  "weight": 50,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-93",
+                  "reps": 20,
+                  "weight": 50,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-94",
+                  "reps": 16,
+                  "weight": 50,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-95",
+                  "reps": 16,
+                  "weight": 50,
+                  "multiplier": 2
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "hist-2026-02-10-d5",
+          "date": "2026-02-10",
+          "dayNumber": 5,
+          "dayLabel": "PULL",
+          "completed": true,
+          "completedAt": "2026-02-10T20:00:00.000Z",
+          "exercises": [
+            {
+              "slotId": "hist-d5-s0",
+              "exerciseId": "seed-legs-3",
+              "sets": [
+                {
+                  "id": "hist-96",
+                  "reps": 12,
+                  "weight": 50,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-97",
+                  "reps": 8,
+                  "weight": 60,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-98",
+                  "reps": 7,
+                  "weight": 70,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-99",
+                  "reps": 5,
+                  "weight": 75,
+                  "multiplier": 2
+                }
+              ]
+            },
+            {
+              "slotId": "hist-d5-s1",
+              "exerciseId": "seed-back-1",
+              "sets": [
+                {
+                  "id": "hist-100",
+                  "reps": 12
+                },
+                {
+                  "id": "hist-101",
+                  "reps": 9
+                },
+                {
+                  "id": "hist-102",
+                  "reps": 7
+                }
+              ]
+            },
+            {
+              "slotId": "hist-d5-s2",
+              "exerciseId": "seed-back-3",
+              "sets": [
+                {
+                  "id": "hist-103",
+                  "reps": 10,
+                  "weight": 45,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-104",
+                  "reps": 12,
+                  "weight": 45,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-105",
+                  "reps": 10,
+                  "weight": 45,
+                  "multiplier": 2
+                }
+              ]
+            },
+            {
+              "slotId": "hist-d5-s3",
+              "exerciseId": "seed-biceps-2",
+              "sets": [
+                {
+                  "id": "hist-106",
+                  "reps": 15,
+                  "weight": 25,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-107",
+                  "reps": 14,
+                  "weight": 30,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-108",
+                  "reps": 10,
+                  "weight": 35,
+                  "multiplier": 2
+                }
+              ]
+            },
+            {
+              "slotId": "hist-d5-s4",
+              "exerciseId": "seed-traps-1",
+              "sets": [
+                {
+                  "id": "hist-109",
+                  "reps": 10,
+                  "weight": 45,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-110",
+                  "reps": 12,
+                  "weight": 50,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-111",
+                  "reps": 9,
+                  "weight": 60,
+                  "multiplier": 2
+                }
+              ]
+            },
+            {
+              "slotId": "hist-d5-s5",
+              "exerciseId": "seed-abs-1",
+              "sets": [
+                {
+                  "id": "hist-112",
+                  "reps": 12
+                },
+                {
+                  "id": "hist-113",
+                  "reps": 10
+                },
+                {
+                  "id": "hist-114",
+                  "reps": 7
+                },
+                {
+                  "id": "hist-115",
+                  "reps": 7
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "hist-2026-02-11-d6",
+          "date": "2026-02-11",
+          "dayNumber": 6,
+          "dayLabel": "PUSH",
+          "completed": true,
+          "completedAt": "2026-02-11T20:00:00.000Z",
+          "exercises": [
+            {
+              "slotId": "hist-d6-s0",
+              "exerciseId": "seed-chest-1",
+              "sets": [
+                {
+                  "id": "hist-116",
+                  "reps": 12,
+                  "weight": 55,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-117",
+                  "reps": 6,
+                  "weight": 65,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-118",
+                  "reps": 8,
+                  "weight": 65,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-119",
+                  "reps": 6,
+                  "weight": 70,
+                  "multiplier": 2
+                }
+              ]
+            },
+            {
+              "slotId": "hist-d6-s1",
+              "exerciseId": "seed-shoulders-3",
+              "sets": [
+                {
+                  "id": "hist-120",
+                  "reps": 12,
+                  "weight": 70,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-121",
+                  "reps": 12,
+                  "weight": 80,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-122",
+                  "reps": 6,
+                  "weight": 100,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-123",
+                  "reps": 10,
+                  "weight": 80,
+                  "multiplier": 2
+                }
+              ]
+            },
+            {
+              "slotId": "hist-d6-s2",
+              "exerciseId": "seed-chest-3",
+              "sets": [
+                {
+                  "id": "hist-124",
+                  "reps": 23
+                },
+                {
+                  "id": "hist-125",
+                  "reps": 18
+                },
+                {
+                  "id": "hist-126",
+                  "reps": 12
+                },
+                {
+                  "id": "hist-127",
+                  "reps": 10
+                }
+              ]
+            },
+            {
+              "slotId": "hist-d6-s3",
+              "exerciseId": "seed-shoulders-1",
+              "sets": [
+                {
+                  "id": "hist-128",
+                  "reps": 10,
+                  "weight": 30,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-129",
+                  "reps": 10,
+                  "weight": 25,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-130",
+                  "reps": 8,
+                  "weight": 25,
+                  "multiplier": 2
+                }
+              ]
+            },
+            {
+              "slotId": "hist-d6-s4",
+              "exerciseId": "seed-triceps-2",
+              "sets": [
+                {
+                  "id": "hist-131",
+                  "reps": 12,
+                  "weight": 25,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-132",
+                  "reps": 12,
+                  "weight": 25,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-133",
+                  "reps": 8,
+                  "weight": 27.5,
+                  "multiplier": 2
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "hist-2026-02-12-d7",
+          "date": "2026-02-12",
+          "dayNumber": 7,
+          "dayLabel": "LEGS",
+          "completed": true,
+          "completedAt": "2026-02-12T20:00:00.000Z",
+          "exercises": [
+            {
+              "slotId": "hist-d7-s0",
+              "exerciseId": "seed-legs-1",
+              "sets": [
+                {
+                  "id": "hist-134",
+                  "reps": 12,
+                  "weight": 55,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-135",
+                  "reps": 13,
+                  "weight": 60,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-136",
+                  "reps": 10,
+                  "weight": 70,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-137",
+                  "reps": 6,
+                  "weight": 80,
+                  "multiplier": 2
+                }
+              ]
+            },
+            {
+              "slotId": "hist-d7-s1",
+              "exerciseId": "seed-hamstring-2",
+              "sets": [
+                {
+                  "id": "hist-138",
+                  "reps": 15,
+                  "weight": 165
+                },
+                {
+                  "id": "hist-139",
+                  "reps": 13,
+                  "weight": 135
+                },
+                {
+                  "id": "hist-140",
+                  "reps": 15,
+                  "weight": 150
+                }
+              ]
+            },
+            {
+              "slotId": "hist-d7-s2",
+              "exerciseId": "seed-quads-1",
+              "sets": [
+                {
+                  "id": "hist-141",
+                  "reps": 20,
+                  "weight": 180
+                },
+                {
+                  "id": "hist-142",
+                  "reps": 16,
+                  "weight": 200
+                },
+                {
+                  "id": "hist-143",
+                  "reps": 13,
+                  "weight": 220
+                }
+              ]
+            },
+            {
+              "slotId": "hist-d7-s3",
+              "exerciseId": "seed-calves-1",
+              "sets": [
+                {
+                  "id": "hist-144",
+                  "reps": 20,
+                  "weight": 50
+                },
+                {
+                  "id": "hist-145",
+                  "reps": 25,
+                  "weight": 50
+                },
+                {
+                  "id": "hist-146",
+                  "reps": 20,
+                  "weight": 50
+                },
+                {
+                  "id": "hist-147",
+                  "reps": 13,
+                  "weight": 50
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "hist-2026-02-13-d1",
+          "date": "2026-02-13",
+          "dayNumber": 1,
+          "dayLabel": "PULL",
+          "completed": true,
+          "completedAt": "2026-02-13T20:00:00.000Z",
+          "exercises": [
+            {
+              "slotId": "hist-d1-s0",
+              "exerciseId": "seed-back-1",
+              "sets": [
+                {
+                  "id": "hist-148",
+                  "reps": 14
+                },
+                {
+                  "id": "hist-149",
+                  "reps": 9
+                },
+                {
+                  "id": "hist-150",
+                  "reps": 8
+                },
+                {
+                  "id": "hist-151",
+                  "reps": 6
+                }
+              ]
+            },
+            {
+              "slotId": "hist-d1-s1",
+              "exerciseId": "seed-back-2",
+              "sets": [
+                {
+                  "id": "hist-152",
+                  "reps": 15,
+                  "weight": 35
+                },
+                {
+                  "id": "hist-153",
+                  "reps": 12,
+                  "weight": 55
+                },
+                {
+                  "id": "hist-154",
+                  "reps": 12,
+                  "weight": 55,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-155",
+                  "reps": 8,
+                  "weight": 60,
+                  "multiplier": 2
+                }
+              ]
+            },
+            {
+              "slotId": "hist-d1-s2",
+              "exerciseId": "seed-biceps-1",
+              "sets": [
+                {
+                  "id": "hist-156",
+                  "reps": 16
+                },
+                {
+                  "id": "hist-157",
+                  "reps": 12,
+                  "weight": 5,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-158",
+                  "reps": 8,
+                  "weight": 15,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-159",
+                  "reps": 6,
+                  "weight": 15,
+                  "multiplier": 2
+                }
+              ]
+            },
+            {
+              "slotId": "hist-d1-s3",
+              "exerciseId": "seed-rear-delts-1",
+              "sets": [
+                {
+                  "id": "hist-160",
+                  "reps": 15,
+                  "weight": 25,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-161",
+                  "reps": 9,
+                  "weight": 25,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-162",
+                  "reps": 9,
+                  "weight": 25,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-163",
+                  "reps": 9,
+                  "weight": 25,
+                  "multiplier": 2
+                }
+              ]
+            },
+            {
+              "slotId": "hist-d1-s4",
+              "exerciseId": "seed-abs-1",
+              "sets": [
+                {
+                  "id": "hist-164",
+                  "reps": 12
+                },
+                {
+                  "id": "hist-165",
+                  "reps": 8
+                },
+                {
+                  "id": "hist-166",
+                  "reps": 4
+                },
+                {
+                  "id": "hist-167",
+                  "reps": 5
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "hist-2026-02-14-d2",
+          "date": "2026-02-14",
+          "dayNumber": 2,
+          "dayLabel": "PUSH",
+          "completed": true,
+          "completedAt": "2026-02-14T20:00:00.000Z",
+          "exercises": [
+            {
+              "slotId": "hist-d2-s0",
+              "exerciseId": "seed-chest-1",
+              "sets": [
+                {
+                  "id": "hist-168",
+                  "reps": 6,
+                  "weight": 85,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-169",
+                  "reps": 12,
+                  "weight": 60,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-170",
+                  "reps": 12,
+                  "weight": 70,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-171",
+                  "reps": 6,
+                  "weight": 80,
+                  "multiplier": 2
+                }
+              ]
+            },
+            {
+              "slotId": "hist-d2-s1",
+              "exerciseId": "seed-shoulders-2",
+              "sets": [
+                {
+                  "id": "hist-172",
+                  "reps": 15,
+                  "weight": 30,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-173",
+                  "reps": 10,
+                  "weight": 35,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-174",
+                  "reps": 9,
+                  "weight": 40,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-175",
+                  "reps": 7,
+                  "weight": 45,
+                  "multiplier": 2
+                }
+              ]
+            },
+            {
+              "slotId": "hist-d2-s2",
+              "exerciseId": "seed-chest-2",
+              "sets": [
+                {
+                  "id": "hist-176",
+                  "reps": 12,
+                  "weight": 45,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-177",
+                  "reps": 12,
+                  "weight": 50,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-178",
+                  "reps": 10,
+                  "weight": 50,
+                  "multiplier": 2
+                }
+              ]
+            },
+            {
+              "slotId": "hist-d2-s3",
+              "exerciseId": "seed-shoulders-1",
+              "sets": [
+                {
+                  "id": "hist-179",
+                  "reps": 12,
+                  "weight": 30,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-180",
+                  "reps": 9,
+                  "weight": 30,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-181",
+                  "reps": 8,
+                  "weight": 25,
+                  "multiplier": 2
+                }
+              ]
+            },
+            {
+              "slotId": "hist-d2-s4",
+              "exerciseId": "seed-triceps-1",
+              "sets": [
+                {
+                  "id": "hist-182",
+                  "reps": 12,
+                  "weight": 30,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-183",
+                  "reps": 12,
+                  "weight": 30,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-184",
+                  "reps": 9,
+                  "weight": 30,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-185",
+                  "reps": 8,
+                  "weight": 30,
+                  "multiplier": 2
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "hist-2026-02-15-d3",
+          "date": "2026-02-15",
+          "dayNumber": 3,
+          "dayLabel": "LEGS",
+          "completed": true,
+          "completedAt": "2026-02-15T20:00:00.000Z",
+          "exercises": [
+            {
+              "slotId": "hist-d3-s0",
+              "exerciseId": "seed-legs-1",
+              "sets": [
+                {
+                  "id": "hist-186",
+                  "reps": 12,
+                  "weight": 70,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-187",
+                  "reps": 11,
+                  "weight": 75,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-188",
+                  "reps": 7,
+                  "weight": 85,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-189",
+                  "reps": 6,
+                  "weight": 95,
+                  "multiplier": 2
+                }
+              ]
+            },
+            {
+              "slotId": "hist-d3-s1",
+              "exerciseId": "seed-hamstring-1",
+              "sets": [
+                {
+                  "id": "hist-190",
+                  "reps": 12,
+                  "weight": 45,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-191",
+                  "reps": 12,
+                  "weight": 55,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-192",
+                  "reps": 12,
+                  "weight": 65,
+                  "multiplier": 2
+                }
+              ]
+            },
+            {
+              "slotId": "hist-d3-s2",
+              "exerciseId": "seed-legs-2",
+              "sets": [
+                {
+                  "id": "hist-193",
+                  "reps": 10
+                },
+                {
+                  "id": "hist-194",
+                  "reps": 10
+                },
+                {
+                  "id": "hist-195",
+                  "reps": 10
+                }
+              ]
+            },
+            {
+              "slotId": "hist-d3-s3",
+              "exerciseId": "seed-calves-1",
+              "sets": [
+                {
+                  "id": "hist-196",
+                  "reps": 25,
+                  "weight": 50,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-197",
+                  "reps": 20,
+                  "weight": 50,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-198",
+                  "reps": 15,
+                  "weight": 50,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-199",
+                  "reps": 15,
+                  "weight": 50,
+                  "multiplier": 2
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "hist-2026-02-17-d5",
+          "date": "2026-02-17",
+          "dayNumber": 5,
+          "dayLabel": "PULL",
+          "completed": true,
+          "completedAt": "2026-02-17T20:00:00.000Z",
+          "exercises": [
+            {
+              "slotId": "hist-d5-s0",
+              "exerciseId": "seed-legs-3",
+              "sets": [
+                {
+                  "id": "hist-200",
+                  "reps": 10,
+                  "weight": 60,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-201",
+                  "reps": 10,
+                  "weight": 60,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-202",
+                  "reps": 10,
+                  "weight": 60,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-203",
+                  "reps": 7,
+                  "weight": 60,
+                  "multiplier": 2
+                }
+              ]
+            },
+            {
+              "slotId": "hist-d5-s1",
+              "exerciseId": "seed-back-1",
+              "sets": [
+                {
+                  "id": "hist-204",
+                  "reps": 12
+                },
+                {
+                  "id": "hist-205",
+                  "reps": 7
+                },
+                {
+                  "id": "hist-206",
+                  "reps": 6
+                },
+                {
+                  "id": "hist-207",
+                  "reps": 6
+                }
+              ]
+            },
+            {
+              "slotId": "hist-d5-s2",
+              "exerciseId": "seed-back-3",
+              "sets": [
+                {
+                  "id": "hist-208",
+                  "reps": 12,
+                  "weight": 45,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-209",
+                  "reps": 12,
+                  "weight": 45,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-210",
+                  "reps": 12,
+                  "weight": 45,
+                  "multiplier": 2
+                }
+              ]
+            },
+            {
+              "slotId": "hist-d5-s3",
+              "exerciseId": "seed-biceps-2",
+              "sets": [
+                {
+                  "id": "hist-211",
+                  "reps": 12,
+                  "weight": 35,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-212",
+                  "reps": 10,
+                  "weight": 35,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-213",
+                  "reps": 8,
+                  "weight": 40,
+                  "multiplier": 2
+                }
+              ]
+            },
+            {
+              "slotId": "hist-d5-s4",
+              "exerciseId": "seed-traps-1",
+              "sets": [
+                {
+                  "id": "hist-214",
+                  "reps": 20,
+                  "weight": 50,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-215",
+                  "reps": 20,
+                  "weight": 50,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-216",
+                  "reps": 25,
+                  "weight": 50,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-217",
+                  "reps": 20,
+                  "weight": 50,
+                  "multiplier": 2
+                }
+              ]
+            },
+            {
+              "slotId": "hist-d5-s5",
+              "exerciseId": "seed-abs-1",
+              "sets": [
+                {
+                  "id": "hist-218",
+                  "reps": 14
+                },
+                {
+                  "id": "hist-219",
+                  "reps": 10
+                },
+                {
+                  "id": "hist-220",
+                  "reps": 8
+                },
+                {
+                  "id": "hist-221",
+                  "reps": 8
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "hist-2026-02-18-d6",
+          "date": "2026-02-18",
+          "dayNumber": 6,
+          "dayLabel": "PUSH",
+          "completed": true,
+          "completedAt": "2026-02-18T20:00:00.000Z",
+          "exercises": [
+            {
+              "slotId": "hist-d6-s0",
+              "exerciseId": "seed-chest-1",
+              "sets": [
+                {
+                  "id": "hist-222",
+                  "reps": 12,
+                  "weight": 70,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-223",
+                  "reps": 12,
+                  "weight": 70,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-224",
+                  "reps": 10,
+                  "weight": 80,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-225",
+                  "reps": 7,
+                  "weight": 80,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-226",
+                  "reps": 4,
+                  "weight": 95,
+                  "multiplier": 2
+                }
+              ]
+            },
+            {
+              "slotId": "hist-d6-s1",
+              "exerciseId": "seed-shoulders-3",
+              "sets": [
+                {
+                  "id": "hist-227",
+                  "reps": 15,
+                  "weight": 10,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-228",
+                  "reps": 12,
+                  "weight": 15,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-229",
+                  "reps": 10,
+                  "weight": 25,
+                  "multiplier": 2
+                }
+              ]
+            },
+            {
+              "slotId": "hist-d6-s2",
+              "exerciseId": "seed-chest-3",
+              "sets": [
+                {
+                  "id": "hist-230",
+                  "reps": 25
+                },
+                {
+                  "id": "hist-231",
+                  "reps": 20
+                },
+                {
+                  "id": "hist-232",
+                  "reps": 10,
+                  "weight": 15,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-233",
+                  "reps": 10,
+                  "weight": 15,
+                  "multiplier": 2
+                }
+              ]
+            },
+            {
+              "slotId": "hist-d6-s3",
+              "exerciseId": "seed-shoulders-1",
+              "sets": [
+                {
+                  "id": "hist-234",
+                  "reps": 9,
+                  "weight": 30,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-235",
+                  "reps": 9,
+                  "weight": 25,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-236",
+                  "reps": 9,
+                  "weight": 25,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-237",
+                  "reps": 8,
+                  "weight": 25,
+                  "multiplier": 2
+                }
+              ]
+            },
+            {
+              "slotId": "hist-d6-s4",
+              "exerciseId": "seed-triceps-2",
+              "sets": [
+                {
+                  "id": "hist-238",
+                  "reps": 16,
+                  "weight": 25,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-239",
+                  "reps": 12,
+                  "weight": 25,
+                  "multiplier": 2
+                },
+                {
+                  "id": "hist-240",
+                  "reps": 9,
+                  "weight": 25,
+                  "multiplier": 2
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "currentDayNumber": 7
+    },
+    "version": 0
+  }
+}

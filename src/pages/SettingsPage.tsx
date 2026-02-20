@@ -5,7 +5,8 @@
  * - Rest Timer: configure the default rest timer duration (in seconds).
  * - Program Link: quick navigation to the program configuration page.
  * - Export Workouts: formats all completed sessions as plain text for clipboard copy.
- *   Uses the same multi-strategy clipboard approach as WorkoutDayView (navigator → textarea fallback → select).
+ * - Backup & Restore: JSON import/export of all localStorage store data.
+ * - Google Sheets Sync: manual push/pull to a user's Google Sheet for cloud backup.
  * - Danger Zone: destructive actions (clear all workouts, clear all metrics) with confirmation dialogs.
  *
  * Route: /settings
@@ -20,8 +21,19 @@ import { useMetricsStore } from '@/features/metrics/stores/metrics.store';
 import { formatSessionText } from '@/features/workout/utils/export';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Copy, Check, Trash2, Download, Clock, Cog } from 'lucide-react';
+import { Copy, Check, Trash2, Download, Clock, Cog, Upload, HardDrive, Cloud, CloudOff } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import {
+  STORE_KEYS,
+  loadGisScript,
+  initGoogleAuth,
+  signIn,
+  signOut,
+  getToken,
+  readStore,
+  writeStore,
+  ensureHeaders,
+} from '@/services/google-sheets';
 
 export function SettingsPage() {
   /* Timer settings */
@@ -40,6 +52,17 @@ export function SettingsPage() {
   const [copied, setCopied] = useState(false);
   const [copyError, setCopyError] = useState<string | null>(null);
   const exportRef = useRef<HTMLPreElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  /* JSON backup state */
+  const [importStatus, setImportStatus] = useState<string | null>(null);
+
+  /* Google Sheets state */
+  const [clientId, setClientId] = useState(() => localStorage.getItem('gymapp-gsheets-client-id') ?? '');
+  const [spreadsheetId, setSpreadsheetId] = useState(() => localStorage.getItem('gymapp-gsheets-spreadsheet-id') ?? '');
+  const [gsConnected, setGsConnected] = useState(false);
+  const [gsStatus, setGsStatus] = useState<string | null>(null);
+  const [gsLoading, setGsLoading] = useState(false);
 
   /** Filter and sort completed sessions for export (oldest first for chronological reading) */
   const completedSessions = useMemo(
@@ -53,7 +76,6 @@ export function SettingsPage() {
 
     return completedSessions
       .map((session) => {
-        // Find the matching program day for slot → muscle group label resolution
         const programDay = days.find((d) => d.dayNumber === session.dayNumber) ?? {
           dayNumber: session.dayNumber,
           label: session.dayLabel,
@@ -88,7 +110,6 @@ export function SettingsPage() {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {
-      // Fallback: hidden textarea technique
       try {
         const textarea = document.createElement('textarea');
         textarea.value = exportText;
@@ -114,6 +135,159 @@ export function SettingsPage() {
     const val = parseInt(timerInput, 10);
     if (!isNaN(val) && val > 0) {
       setDefaultDuration(val);
+    }
+  };
+
+  /* ── JSON Backup Handlers ── */
+
+  /** Export all store data as a downloadable JSON file */
+  const handleExportJson = () => {
+    const backup: Record<string, unknown> = {};
+    for (const key of STORE_KEYS) {
+      const raw = localStorage.getItem(key);
+      if (raw) {
+        try {
+          backup[key] = JSON.parse(raw);
+        } catch {
+          backup[key] = raw;
+        }
+      }
+    }
+
+    const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `gymapp-backup-${new Date().toISOString().slice(0, 10)}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  /** Import JSON backup from file — validates keys, writes to localStorage, reloads */
+  const handleImportJson = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const data = JSON.parse(reader.result as string);
+        if (typeof data !== 'object' || data === null) {
+          setImportStatus('Invalid backup file format.');
+          return;
+        }
+
+        const validKeys = new Set<string>(STORE_KEYS);
+        let restored = 0;
+        for (const [key, value] of Object.entries(data)) {
+          if (validKeys.has(key)) {
+            localStorage.setItem(key, typeof value === 'string' ? value : JSON.stringify(value));
+            restored++;
+          }
+        }
+
+        if (restored === 0) {
+          setImportStatus('No valid store keys found in backup.');
+          return;
+        }
+
+        setImportStatus(`Restored ${restored} store(s). Reloading...`);
+        setTimeout(() => window.location.reload(), 1000);
+      } catch {
+        setImportStatus('Failed to parse JSON file.');
+      }
+    };
+    reader.readAsText(file);
+    // Reset input so the same file can be re-selected
+    e.target.value = '';
+  };
+
+  /* ── Google Sheets Handlers ── */
+
+  /** Connect to Google via OAuth popup */
+  const handleGsConnect = async () => {
+    if (!clientId.trim() || !spreadsheetId.trim()) {
+      setGsStatus('Enter both Client ID and Spreadsheet ID first.');
+      return;
+    }
+    setGsLoading(true);
+    setGsStatus(null);
+    try {
+      localStorage.setItem('gymapp-gsheets-client-id', clientId.trim());
+      localStorage.setItem('gymapp-gsheets-spreadsheet-id', spreadsheetId.trim());
+
+      await loadGisScript();
+      initGoogleAuth(clientId.trim());
+      await signIn();
+      setGsConnected(true);
+      setGsStatus('Connected successfully.');
+    } catch (err) {
+      setGsStatus(`Connection failed: ${err instanceof Error ? err.message : String(err)}`);
+    } finally {
+      setGsLoading(false);
+    }
+  };
+
+  /** Disconnect Google account */
+  const handleGsDisconnect = () => {
+    signOut();
+    setGsConnected(false);
+    setGsStatus('Disconnected.');
+  };
+
+  /** Push all store data to Google Sheet */
+  const handleGsPush = async () => {
+    const token = getToken();
+    if (!token) {
+      setGsStatus('Not connected. Click Connect first.');
+      return;
+    }
+    setGsLoading(true);
+    setGsStatus('Pushing data...');
+    try {
+      await ensureHeaders(spreadsheetId.trim(), token);
+      for (const key of STORE_KEYS) {
+        const raw = localStorage.getItem(key);
+        if (raw) {
+          await writeStore(spreadsheetId.trim(), key, raw, token);
+        }
+      }
+      setGsStatus('Push complete.');
+    } catch (err) {
+      setGsStatus(`Push failed: ${err instanceof Error ? err.message : String(err)}`);
+    } finally {
+      setGsLoading(false);
+    }
+  };
+
+  /** Pull all store data from Google Sheet */
+  const handleGsPull = async () => {
+    const token = getToken();
+    if (!token) {
+      setGsStatus('Not connected. Click Connect first.');
+      return;
+    }
+    setGsLoading(true);
+    setGsStatus('Pulling data...');
+    try {
+      let restored = 0;
+      for (const key of STORE_KEYS) {
+        const value = await readStore(spreadsheetId.trim(), key, token);
+        if (value) {
+          localStorage.setItem(key, value);
+          restored++;
+        }
+      }
+      if (restored === 0) {
+        setGsStatus('No data found in sheet.');
+      } else {
+        setGsStatus(`Restored ${restored} store(s). Reloading...`);
+        setTimeout(() => window.location.reload(), 1000);
+      }
+    } catch (err) {
+      setGsStatus(`Pull failed: ${err instanceof Error ? err.message : String(err)}`);
+    } finally {
+      setGsLoading(false);
     }
   };
 
@@ -157,6 +331,92 @@ export function SettingsPage() {
         </div>
       </Link>
 
+      {/* ── Backup & Restore (JSON) ── */}
+      <div className="bg-card rounded-xl border border-border/50 p-4">
+        <div className="flex items-center gap-2 mb-3">
+          <HardDrive className="h-4 w-4 text-primary" />
+          <h3 className="text-sm font-semibold">Backup & Restore</h3>
+        </div>
+        <div className="flex gap-2">
+          <Button variant="outline" size="sm" className="flex-1 gap-1.5" onClick={handleExportJson}>
+            <Download className="h-3.5 w-3.5" />
+            Export JSON
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            className="flex-1 gap-1.5"
+            onClick={() => fileInputRef.current?.click()}
+          >
+            <Upload className="h-3.5 w-3.5" />
+            Import JSON
+          </Button>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept=".json,application/json"
+            className="hidden"
+            onChange={handleImportJson}
+          />
+        </div>
+        {importStatus && (
+          <p className="text-xs text-muted-foreground mt-2">{importStatus}</p>
+        )}
+      </div>
+
+      {/* ── Google Sheets Sync ── */}
+      <div className="bg-card rounded-xl border border-border/50 p-4">
+        <div className="flex items-center gap-2 mb-3">
+          {gsConnected ? (
+            <Cloud className="h-4 w-4 text-success" />
+          ) : (
+            <CloudOff className="h-4 w-4 text-muted-foreground" />
+          )}
+          <h3 className="text-sm font-semibold">Google Sheets Sync</h3>
+          {gsConnected && (
+            <span className="ml-auto text-[10px] font-medium text-success bg-success/15 px-1.5 py-0.5 rounded-full">
+              Connected
+            </span>
+          )}
+        </div>
+        <div className="flex flex-col gap-2">
+          <Input
+            placeholder="OAuth Client ID"
+            value={clientId}
+            onChange={(e) => setClientId(e.target.value)}
+            className="text-xs"
+          />
+          <Input
+            placeholder="Spreadsheet ID"
+            value={spreadsheetId}
+            onChange={(e) => setSpreadsheetId(e.target.value)}
+            className="text-xs"
+          />
+          <div className="flex gap-2">
+            {!gsConnected ? (
+              <Button size="sm" className="flex-1" onClick={handleGsConnect} disabled={gsLoading}>
+                {gsLoading ? 'Connecting...' : 'Connect'}
+              </Button>
+            ) : (
+              <>
+                <Button size="sm" variant="outline" className="flex-1" onClick={handleGsPush} disabled={gsLoading}>
+                  {gsLoading ? '...' : 'Push to Sheets'}
+                </Button>
+                <Button size="sm" variant="outline" className="flex-1" onClick={handleGsPull} disabled={gsLoading}>
+                  {gsLoading ? '...' : 'Pull from Sheets'}
+                </Button>
+                <Button size="sm" variant="ghost" onClick={handleGsDisconnect} disabled={gsLoading}>
+                  Disconnect
+                </Button>
+              </>
+            )}
+          </div>
+          {gsStatus && (
+            <p className="text-xs text-muted-foreground">{gsStatus}</p>
+          )}
+        </div>
+      </div>
+
       {/* ── Export completed workouts ── */}
       <div className="bg-card rounded-xl border border-border/50 p-4">
         <div className="flex items-center gap-2 mb-3">
@@ -168,7 +428,6 @@ export function SettingsPage() {
           <p className="text-xs text-muted-foreground">No completed workouts to export.</p>
         ) : (
           <>
-            {/* Formatted export preview — click to select all */}
             <pre
               ref={exportRef}
               className="text-xs bg-background rounded-lg p-3 max-h-48 overflow-y-auto whitespace-pre-wrap mb-3 text-muted-foreground"

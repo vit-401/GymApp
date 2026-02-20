@@ -18,12 +18,28 @@ import { cn } from '@/utils/cn';
 
 export function AppLayout() {
   const isRunning = useTimerStore((s) => s.isRunning);
+  const remaining = useTimerStore((s) => s.remaining);
+  const remainingAtStart = useTimerStore((s) => s.remainingAtStart);
+
+  const bigMinutes = Math.floor(remaining / 60);
+  const bigSeconds = remaining % 60;
+  const pct = remainingAtStart > 0 ? remaining / remainingAtStart : 0;
+  const timerColor = pct > 0.5 ? 'text-success' : pct > 0.2 ? 'text-warning' : 'text-destructive';
 
   return (
     <div className="relative flex flex-col h-dvh bg-background">
       {/* Pulsing green border overlay — visible on top of all content */}
       {isRunning && (
         <div className="absolute inset-0 z-50 pointer-events-none animate-border-pulse" />
+      )}
+
+      {/* Big timer countdown banner — display only, controls stay in bottom bar */}
+      {isRunning && (
+        <div className="shrink-0 flex items-center justify-center py-2 bg-card/80 border-b border-border/50">
+          <span className={cn('font-mono text-5xl font-bold tabular-nums', timerColor)}>
+            {String(bigMinutes).padStart(2, '0')}:{String(bigSeconds).padStart(2, '0')}
+          </span>
+        </div>
       )}
 
       {/* Scrollable page content — each page renders here via router */}

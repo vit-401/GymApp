@@ -80,11 +80,15 @@ export function WorkoutDayView() {
       if (!session) return;
       addSet(session.id, slotId, exerciseId, setData);
 
-      // Auto-set rest timer to the slot's rest duration (e.g. 120s for compound, 60s for ABS/Calves)
+      // Auto-set rest timer only if not already running (don't interrupt an active countdown)
       const slot = currentDay?.slots.find((s) => s.id === slotId);
       if (slot) {
-        const restSeconds = REST_SECONDS_BY_MUSCLE_GROUP[slot.muscleGroup];
-        useTimerStore.getState().setRemaining(restSeconds);
+        const timerState = useTimerStore.getState();
+        if (!timerState.isRunning) {
+          const restSeconds = REST_SECONDS_BY_MUSCLE_GROUP[slot.muscleGroup];
+          timerState.setRemaining(restSeconds);
+          timerState.start();
+        }
       }
     },
     [session, addSet, currentDay]
