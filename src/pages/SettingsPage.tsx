@@ -29,10 +29,11 @@ import {
   initGoogleAuth,
   signIn,
   signOut,
+  isConnected,
   getToken,
-  readStore,
-  writeStore,
   ensureHeaders,
+  pullAll,
+  pushAll,
 } from '@/services/google-sheets';
 
 export function SettingsPage() {
@@ -60,7 +61,7 @@ export function SettingsPage() {
   /* Google Sheets state */
   const [clientId, setClientId] = useState(() => localStorage.getItem('gymapp-gsheets-client-id') ?? '');
   const [spreadsheetId, setSpreadsheetId] = useState(() => localStorage.getItem('gymapp-gsheets-spreadsheet-id') ?? '');
-  const [gsConnected, setGsConnected] = useState(false);
+  const [gsConnected, setGsConnected] = useState(() => isConnected());
   const [gsStatus, setGsStatus] = useState<string | null>(null);
   const [gsLoading, setGsLoading] = useState(false);
 
@@ -204,7 +205,7 @@ export function SettingsPage() {
 
   /* ── Google Sheets Handlers ── */
 
-  /** Connect to Google via OAuth popup */
+  /** Connect to Google via OAuth popup, then auto-pull from sheet */
   const handleGsConnect = async () => {
     if (!clientId.trim() || !spreadsheetId.trim()) {
       setGsStatus('Enter both Client ID and Spreadsheet ID first.');
@@ -218,11 +219,25 @@ export function SettingsPage() {
 
       await loadGisScript();
       initGoogleAuth(clientId.trim());
-      await signIn();
+      const token = await signIn();
       setGsConnected(true);
-      setGsStatus('Connected successfully.');
+
+      // Auto-pull on connect
+      setGsStatus('Connected. Pulling data...');
+      await ensureHeaders(spreadsheetId.trim(), token);
+      const { sessions: sCnt } = await pullAll(spreadsheetId.trim(), token);
+
+      if (sCnt > 0) {
+        setGsStatus(`Pulled ${sCnt} session(s). Reloading...`);
+        setTimeout(() => window.location.reload(), 800);
+      } else {
+        // Sheet is empty — push local data to initialize it
+        setGsStatus('Sheet empty. Pushing local data...');
+        const pushed = await pushAll(spreadsheetId.trim(), token);
+        setGsStatus(`Pushed ${pushed} session(s) to sheet. Connected.`);
+      }
     } catch (err) {
-      setGsStatus(`Connection failed: ${err instanceof Error ? err.message : String(err)}`);
+      setGsStatus(`Failed: ${err instanceof Error ? err.message : String(err)}`);
     } finally {
       setGsLoading(false);
     }
@@ -235,7 +250,7 @@ export function SettingsPage() {
     setGsStatus('Disconnected.');
   };
 
-  /** Push all store data to Google Sheet */
+  /** Push ALL local data to Google Sheet */
   const handleGsPush = async () => {
     const token = getToken();
     if (!token) {
@@ -243,16 +258,10 @@ export function SettingsPage() {
       return;
     }
     setGsLoading(true);
-    setGsStatus('Pushing data...');
+    setGsStatus('Pushing all data...');
     try {
-      await ensureHeaders(spreadsheetId.trim(), token);
-      for (const key of STORE_KEYS) {
-        const raw = localStorage.getItem(key);
-        if (raw) {
-          await writeStore(spreadsheetId.trim(), key, raw, token);
-        }
-      }
-      setGsStatus('Push complete.');
+      const count = await pushAll(spreadsheetId.trim(), token);
+      setGsStatus(`Pushed ${count} session(s) + config.`);
     } catch (err) {
       setGsStatus(`Push failed: ${err instanceof Error ? err.message : String(err)}`);
     } finally {
@@ -260,7 +269,7 @@ export function SettingsPage() {
     }
   };
 
-  /** Pull all store data from Google Sheet */
+  /** Pull all data from Google Sheet */
   const handleGsPull = async () => {
     const token = getToken();
     if (!token) {
@@ -270,19 +279,12 @@ export function SettingsPage() {
     setGsLoading(true);
     setGsStatus('Pulling data...');
     try {
-      let restored = 0;
-      for (const key of STORE_KEYS) {
-        const value = await readStore(spreadsheetId.trim(), key, token);
-        if (value) {
-          localStorage.setItem(key, value);
-          restored++;
-        }
-      }
-      if (restored === 0) {
+      const { sessions: sCnt, config: cCnt } = await pullAll(spreadsheetId.trim(), token);
+      if (sCnt === 0 && cCnt === 0) {
         setGsStatus('No data found in sheet.');
       } else {
-        setGsStatus(`Restored ${restored} store(s). Reloading...`);
-        setTimeout(() => window.location.reload(), 1000);
+        setGsStatus(`Pulled ${sCnt} session(s), ${cCnt} config(s). Reloading...`);
+        setTimeout(() => window.location.reload(), 800);
       }
     } catch (err) {
       setGsStatus(`Pull failed: ${err instanceof Error ? err.message : String(err)}`);

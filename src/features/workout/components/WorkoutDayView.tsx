@@ -34,6 +34,7 @@ import { getPreviousExerciseStats } from '@/features/workout/utils/previous-stat
 import type { WorkoutSet } from '@/types';
 import { REST_SECONDS_BY_MUSCLE_GROUP } from '@/types';
 import { useTimerStore } from '@/stores/timer.store';
+import { autoSyncOnComplete } from '@/services/google-sheets';
 
 export function WorkoutDayView() {
   /* Store selectors */
@@ -103,10 +104,23 @@ export function WorkoutDayView() {
     [session, removeSet]
   );
 
-  /** Mark the current session as completed */
+  /* Sync status after completing a workout */
+  const [syncStatus, setSyncStatus] = useState<'synced' | 'error' | null>(null);
+
+  /** Mark the current session as completed, then auto-sync to Google Sheets */
   const handleComplete = useCallback(() => {
     if (!session) return;
     completeSession(session.id);
+    // Get fresh session data after sync store update
+    const completedSession = useWorkoutStore.getState().sessions.find(s => s.id === session.id);
+    if (completedSession) {
+      autoSyncOnComplete(completedSession).then((result) => {
+        if (result !== 'skipped') {
+          setSyncStatus(result);
+          setTimeout(() => setSyncStatus(null), 3000);
+        }
+      });
+    }
   }, [session, completeSession]);
 
   /** Reopen a completed session for editing */
@@ -237,6 +251,12 @@ export function WorkoutDayView() {
             <CheckCircle2 className="h-5 w-5" />
             <span className="font-semibold">Workout Completed!</span>
           </div>
+          {syncStatus === 'synced' && (
+            <p className="text-xs text-success">Synced to Google Sheets</p>
+          )}
+          {syncStatus === 'error' && (
+            <p className="text-xs text-destructive">Sheets sync failed — push manually from Settings</p>
+          )}
           <div className="flex gap-2">
             <Button
               variant="outline"
