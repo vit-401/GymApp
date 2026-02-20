@@ -31,11 +31,11 @@ interface ExercisesState {
   getExerciseById: (id: string) => Exercise | undefined;
 }
 
-/** Seed defaults by image uniqueness so existing custom IDs are preserved. */
+/** Seed defaults by ID so existing exercises are preserved and missing defaults are added. */
 const mergeWithDefaultExercises = (source: Exercise[]): Exercise[] => {
   if (source.length === 0) return [...DEFAULT_EXERCISES];
-  const existingImages = new Set(source.map((exercise) => exercise.imageUrl));
-  const missingDefaults = DEFAULT_EXERCISES.filter((exercise) => !existingImages.has(exercise.imageUrl));
+  const existingIds = new Set(source.map((exercise) => exercise.id));
+  const missingDefaults = DEFAULT_EXERCISES.filter((exercise) => !existingIds.has(exercise.id));
   return missingDefaults.length > 0 ? [...source, ...missingDefaults] : source;
 };
 
