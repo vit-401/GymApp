@@ -13,11 +13,21 @@
 import { useMemo, useState } from 'react';
 import { Calendar } from '@/components/Calendar/Calendar';
 import { useWorkoutStore } from '@/features/workout/stores/workout.store';
+import { useExercisesStore } from '@/features/exercises/stores/exercises.store';
 import { formatDisplayDate } from '@/utils/date';
-import type { WorkoutSession } from '@/types';
+import type { WorkoutSession, WorkoutSet } from '@/types';
+
+/** Format a single set as compact text: "12×65" or "12×2×30" or "15" */
+function formatSet(set: WorkoutSet): string {
+  const { reps, weight, multiplier } = set;
+  if (weight && multiplier && multiplier > 1) return `${reps}×${multiplier}×${weight}`;
+  if (weight) return `${reps}×${weight}`;
+  return String(reps);
+}
 
 export function CalendarPage() {
   const sessions = useWorkoutStore((s) => s.sessions);
+  const getExerciseById = useExercisesStore((s) => s.getExerciseById);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
 
   /** Set of dates with at least one completed session — drives calendar green highlighting */
@@ -55,18 +65,18 @@ export function CalendarPage() {
         </div>
       </div>
 
-      {/* Selected date detail panel — shows session summary when a date is tapped */}
+      {/* Selected date detail panel — shows full workout breakdown */}
       {selectedDate && (
         <div className="bg-card rounded-xl border border-border/50 p-4">
-          <h3 className="text-sm font-semibold mb-2">{formatDisplayDate(selectedDate)}</h3>
+          <h3 className="text-sm font-semibold mb-3">{formatDisplayDate(selectedDate)}</h3>
           {selectedSessions.length === 0 ? (
             <p className="text-xs text-muted-foreground">No workout recorded</p>
           ) : (
             selectedSessions.map((session) => (
-              <div key={session.id} className="mb-2 last:mb-0">
-                <div className="flex items-center gap-2 mb-1">
-                  <span className="text-xs font-medium">
-                    D{session.dayNumber} — {session.dayLabel}
+              <div key={session.id} className="mb-3 last:mb-0">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-sm font-semibold">
+                    D{session.dayNumber} {session.dayLabel}
                   </span>
                   {session.completed && (
                     <span className="text-[10px] bg-success/20 text-success px-1.5 py-0.5 rounded-full font-medium">
@@ -74,10 +84,19 @@ export function CalendarPage() {
                     </span>
                   )}
                 </div>
-                <p className="text-xs text-muted-foreground">
-                  {(session.exercises ?? []).length} exercise(s),{' '}
-                  {(session.exercises ?? []).reduce((acc, e) => acc + (e.sets?.length ?? 0), 0)} total sets
-                </p>
+                {(session.exercises ?? []).map((se) => {
+                  const exercise = getExerciseById(se.exerciseId);
+                  return (
+                    <div key={se.slotId} className="mb-2 last:mb-0">
+                      <p className="text-xs font-medium text-foreground">
+                        {exercise?.name ?? se.exerciseId}
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        {(se.sets ?? []).map((s) => formatSet(s)).join('  ·  ')}
+                      </p>
+                    </div>
+                  );
+                })}
               </div>
             ))
           )}
