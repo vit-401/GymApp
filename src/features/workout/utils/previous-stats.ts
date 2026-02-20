@@ -54,6 +54,7 @@ export const getPreviousExerciseStats = (
     .sort((a, b) => getSessionSortValue(b) - getSessionSortValue(a));
 
   for (const session of ordered) {
+    if (!Array.isArray(session.exercises)) continue;
     const entry = session.exercises.find(
       (exercise) => exercise.exerciseId === exerciseId && exercise.sets.length > 0
     );

@@ -62,7 +62,7 @@ export function formatSessionText(
   // Header: day number + label (e.g. "D2 PUSH")
   lines.push(`D${session.dayNumber} ${session.dayLabel}`);
 
-  for (const se of session.exercises) {
+  for (const se of session.exercises ?? []) {
     // Resolve exercise name: prefer assigned exercise, fallback to muscle group label
     const slot = programDay.slots.find((s) => s.id === se.slotId);
     const exercise =

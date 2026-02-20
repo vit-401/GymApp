@@ -75,8 +75,8 @@ export function CalendarPage() {
                   )}
                 </div>
                 <p className="text-xs text-muted-foreground">
-                  {session.exercises.length} exercise(s),{' '}
-                  {session.exercises.reduce((acc, e) => acc + e.sets.length, 0)} total sets
+                  {(session.exercises ?? []).length} exercise(s),{' '}
+                  {(session.exercises ?? []).reduce((acc, e) => acc + (e.sets?.length ?? 0), 0)} total sets
                 </p>
               </div>
             ))
