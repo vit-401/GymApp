@@ -55,6 +55,9 @@ interface WorkoutState {
   /** Get unique dates where at least one session was completed (for calendar highlighting) */
   getCompletedDates: () => string[];
 
+  /** Delete specific sessions by their IDs */
+  deleteSessions: (sessionIds: string[]) => void;
+
   /** Delete all workout history — used in Settings danger zone */
   clearSessions: () => void;
 }
@@ -168,6 +171,11 @@ export const useWorkoutStore = create<WorkoutState>()(
         get()
           .sessions.filter((s) => s.completed)
           .map((s) => s.date),
+
+      deleteSessions: (sessionIds) =>
+        set((state) => ({
+          sessions: state.sessions.filter((s) => !sessionIds.includes(s.id)),
+        })),
 
       clearSessions: () => set({ sessions: [] }),
     }),

@@ -193,6 +193,50 @@ export async function pushSession(
   }
 }
 
+/** Delete a session row from the sheet by session ID */
+export async function deleteSessionFromSheet(
+  spreadsheetId: string,
+  sessionId: string,
+  token: string
+): Promise<void> {
+  // Find row index for this session ID
+  let existingIds: string[] = [];
+  try {
+    const idsRes = await sheetsGet(spreadsheetId, 'Sheet1!A2:A10000', token);
+    existingIds = (idsRes.values ?? []).map((r: string[]) => r[0]);
+  } catch { return; }
+
+  const rowIndex = existingIds.indexOf(sessionId);
+  if (rowIndex < 0) return;
+
+  // Get the sheet's numeric ID (gid) for batchUpdate
+  const metaRes = await fetch(`${SHEETS_BASE}/${spreadsheetId}?fields=sheets.properties`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  if (!metaRes.ok) throw new Error(`Sheets meta: ${metaRes.status}`);
+  const meta = await metaRes.json();
+  const sheetId = meta.sheets?.[0]?.properties?.sheetId ?? 0;
+
+  // Delete the row (rowIndex is 0-based from row 2, so actual row = rowIndex + 1 in 0-based sheet coords)
+  const res = await fetch(`${SHEETS_BASE}/${spreadsheetId}:batchUpdate`, {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      requests: [{
+        deleteDimension: {
+          range: {
+            sheetId,
+            dimension: 'ROWS',
+            startIndex: rowIndex + 1, // +1 for header row (0-based)
+            endIndex: rowIndex + 2,
+          },
+        },
+      }],
+    }),
+  });
+  if (!res.ok) throw new Error(`Sheets deleteRow: ${res.status}`);
+}
+
 /** Push ALL local sessions + config to sheet */
 export async function pushAll(spreadsheetId: string, token: string): Promise<number> {
   await ensureHeaders(spreadsheetId, token);
